@@ -49,7 +49,7 @@ symbol = " "
 symbol = " "
 
 [nodejs]
-format = '[$symbol  ($version)]($style) '
+format = '[$symbol($version)]($style) '
 
 [package]
 symbol = " "
