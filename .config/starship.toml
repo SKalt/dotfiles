@@ -48,6 +48,9 @@ symbol = " "
 [nix_shell]
 symbol = " "
 
+[nodejs]
+format = '[$symbol  ($version)]($style) '
+
 [package]
 symbol = " "
 
