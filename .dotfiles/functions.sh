@@ -7,16 +7,6 @@ til() {
     (
         cd "$target_dir" || exit 127;
         local amend="";
-        if ! test -e "$target"; then
-            amend="false"
-            {
-                echo "---"
-                echo "tags: []"
-                echo "---"
-            } > "$target"
-        else amend="true"
-        fi
-        ${EDITOR:-vi} "$target"
         if ! (git rev-parse); then
             (
                 cd "$HOME/til" &&
@@ -28,9 +18,19 @@ til() {
         else
             git pull
         fi
+        if ! test -e "$target"; then
+            amend="false"
+            {
+                echo "---"
+                echo "tags: []"
+                echo "---"
+            } > "$target"
+        else amend="true"
+        fi
+        ${EDITOR:-vi} "$target"
         git add "$target"
-        if [ "$amend" = "true" ]; then git commit --amend;
-        else git commit -m "til";
+        if [ "$amend" = "true" ]; then git commit --no-gpg-sign --amend;
+        else git commit --no-gpg-sign -m "til";
         fi
     )
 }
