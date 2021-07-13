@@ -70,14 +70,19 @@ ZSH_THEME="bira"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
-    node
-    python
-    rust
-    golang
     colored-man-pages
     command-not-found
-    docker
+
+    node
+    yarn
+    npm
+
+    python
     pyenv
+
+    rust
+    golang
+    docker
 )
 
 source "$ZSH/oh-my-zsh.sh"
