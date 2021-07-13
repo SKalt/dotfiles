@@ -16,6 +16,7 @@
 if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
 if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
 
+. ~/.dotfiles/functions.sh
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
