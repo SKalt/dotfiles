@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 til() {
-    local target; target="$HOME/til/$(date +'%Y/%m/%d').md"
+    local target; target="$HOME/.til/$(date +'%Y/%m/%d').md"
     local target_dir="${target%/*}";
     mkdir -p "$target_dir"
     (
@@ -9,7 +9,7 @@ til() {
         local amend="";
         if ! (git rev-parse); then
             (
-                cd "$HOME/til" &&
+                cd "$HOME/.til" &&
                 git init &&
                 git remote add origin https://github.com/SKalt/til.git &&
                 git fetch &&
