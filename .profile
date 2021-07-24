@@ -1,22 +1,25 @@
 #!/bin/sh
 # ~/.profile: executed by the command interpreter for login shells.
-# I've also set ~/.bash_profile and ~/.zprofile to source this one
+# I've also set ~/.bash_profile and ~/.zprofile to source this one for
+# consistency.
+# For more information on when .*profile and .*rc files run, see
+# https://unix.stackexchange.com/a/579832/234355
+
+export PROFILE_HAS_BEEN_SOURCED=true
 
 # modify $PATH to make programs & configuration variables available:
 . ~/.dotfiles/programs/yarn.sh
-. ~/.dotfiles/programs/conda.sh;
-. ~/.dotfiles/programs/go.sh;
-. ~/.dotfiles/programs/gvm.sh;
-. ~/.dotfiles/programs/cargo.sh;
-. ~/.dotfiles/programs/flyctl.sh;
-. ~/.dotfiles/programs/pyenv.sh;
-. ~/.dotfiles/programs/deno.sh;
-. ~/.dotfiles/programs/docker.sh;
+. ~/.dotfiles/programs/conda.sh
+. ~/.dotfiles/programs/go.sh
+. ~/.dotfiles/programs/gvm.sh
+. ~/.dotfiles/programs/cargo.sh
+. ~/.dotfiles/programs/flyctl.sh
+. ~/.dotfiles/programs/pyenv.sh
+. ~/.dotfiles/programs/deno.sh
+. ~/.dotfiles/programs/docker.sh
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
 if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
-
-. ~/.dotfiles/functions.sh
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
