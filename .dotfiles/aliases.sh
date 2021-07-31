@@ -1,4 +1,3 @@
 #!/bin/bash
-# TODO: add aliases
-# TODO: notify
+# shellcheck disable=SC2139
 alias dotfiles="git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
