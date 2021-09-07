@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -o pipefail
+git history | fzf | xargs git checkout
