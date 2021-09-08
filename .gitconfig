@@ -1,0 +1,32 @@
+[user]
+	email = kalt.steven@gmail.com
+	name = Steven Kalt
+[alias]
+	; common aliases -----------------------------------------------------------
+	; alias 'git git' to 'git' to avoid copy-pasting errors
+	git = !git
+	co = checkout
+	s = status
+	lo = log --oneline
+
+	; advanced, less-frequently-used aliases -----------------------------------
+	find-branch = !git branch --list "*$1*"
+	fb = find-branch
+	root = rev-parse --show-toplevel
+	current-branch = rev-parse --abbrev-ref HEAD
+	; git-history is a git extension in ~/bin
+	h = "!f(){ git history; }; f"
+
+	path = !echo \"${PATH//:/\\\\n}\"
+	dark-mode = config core.pager 'delta --theme=\"Solarized (dark)\"'
+	light-mode = config core.pager 'delta --theme=\"Solarized (light)\"'
+
+	; fun stuff ----------------------------------------------------------------
+	gud = "!f() { echo \"GIT GUD\" | figlet -c ; }; f"
+
+[includeIf "gitdir:~/work/"]
+	path = ~/work/.gitconfig
+
+[credential]
+	helper = osxkeychain
+
