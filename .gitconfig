@@ -27,6 +27,8 @@
 [includeIf "gitdir:~/work/"]
 	path = ~/work/.gitconfig
 
-[credential]
-	helper = osxkeychain
+[includeIf "gitdir:/Users/"]
+	path = ~/.dotfiles/osx.gitconfig
 
+[includeIf "gitconfig:/home/"]
+	path = ~/.dotfiles/linux.gitconfig

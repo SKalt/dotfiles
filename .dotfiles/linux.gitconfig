@@ -1,0 +1,8 @@
+[credential]
+    helper = store
+[gpg]
+        program = /usr/bin/krgpg
+# [commit]
+#         gpgSign = true
+[tag]
+        forceSignAnnotated = true
