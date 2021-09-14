@@ -1,1 +1,1 @@
-export PATH="$HOME/.n:$PATH"
+test -d "$HOME/.n/bin" && export PATH="$HOME/.n/bin:$PATH"
