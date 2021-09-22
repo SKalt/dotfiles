@@ -32,6 +32,8 @@ export PROFILE_HAS_BEEN_SOURCED=true
 . ~/.dotfiles/programs/cs.sh
 # shellcheck disable=SC1090
 . ~/.dotfiles/programs/n.sh
+# shellcheck disable=SC1090
+. ~/.dotfiles/programs/editor.sh 
 
 # set PATH so it includes user's private bin(s) if it exists
 if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
