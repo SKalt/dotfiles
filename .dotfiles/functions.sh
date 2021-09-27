@@ -40,3 +40,5 @@ into() {
     fi
     ssh "$target_ip"
 }
+
+pretty_path() { echo "${PATH//:/\n}"; }
