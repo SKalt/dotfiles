@@ -30,3 +30,13 @@ alert() {
         osascript -e "$cmd"
     fi
 }
+
+into() {
+    local target_ip
+    if [ -n "${1:-}" ]; then
+        target_ip="$(tailscale status | grep "$1" | awk '{ print $1 }')"
+    else
+        target_ip="$(tailscale status |    fzf    | awk '{ print $1 }')"
+    fi
+    ssh "$target_ip"
+}
