@@ -6,4 +6,4 @@ fi
 source ~/.dotfiles/programs/omz.sh
 source ~/.dotfiles/aliases.sh
 source ~/.dotfiles/functions.sh
-eval $(thefuck --alias)
+if (command -v thefuck &>/dev/null); then eval $(thefuck --alias); fi
