@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-if command -v pyenv 1>/dev/null 2>&1; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init --path)"
+PYENV_ROOT="$HOME/.pyenv"
+
+if [ -d "$PYENV_ROOT" ]; then
+  export PYENV_ROOT
+  # shellcheck disable=SC2076
+  if ! [[ "$PATH" =~ "$PYENV_ROOT" ]]; then
+    eval "$(pyenv init --path)" # sets the path
+  fi
   eval "$(pyenv init -)" &>/dev/null
 fi
