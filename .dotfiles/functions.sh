@@ -42,3 +42,4 @@ into() {
 }
 
 pretty_path() { echo "${PATH//:/\n}"; }
+iso_date() { date '+%Y-%m-%dT%H:%M:%S%z'; }
