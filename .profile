@@ -10,10 +10,19 @@
 # ^ don't warn about non-constant or external sources
 
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then 
-    # modify $PATH to make programs & configuration variables available:
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh";
     fi
+fi
+
+if command -v fortune>/dev/null; then
+    echo "fortune: -----------------------------------------------------------"
+    fortune | sed 's/^/    /g';
+    echo "--------------------------------------------------------------------"
+fi
+
+if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then 
+    # modify $PATH to make programs & configuration variables available:
     . ~/.dotfiles/programs/yarn.sh
     . ~/.dotfiles/programs/conda.sh
     . ~/.dotfiles/programs/go.sh
