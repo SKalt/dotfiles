@@ -8,7 +8,6 @@
 
 # shellcheck disable=SC1090,SC1091
 # ^ don't warn about non-constant or external sources
-
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then 
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh";
