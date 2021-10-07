@@ -1,4 +1,4 @@
 #!/bin/bash
 # shellcheck disable=SC1091
-test -x "$HOME/.gvm/scripts/gvm" && source "$HOME/.gvm/scripts/gvm"
-#    ^-- check gvm is an excutable file
+test -f "$HOME/.gvm/scripts/gvm" && source "$HOME/.gvm/scripts/gvm"
+#    ^-- check gvm is a file (doesn't need to be executable)
