@@ -68,6 +68,10 @@ symbol = " "
 [ruby]
 symbol = " "
 
+# https://starship.rs/config/#r
+[rlang]
+symbol = "R "
+
 [rust]
 symbol = " "
 

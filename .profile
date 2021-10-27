@@ -8,19 +8,16 @@
 
 # shellcheck disable=SC1090,SC1091
 # ^ don't warn about non-constant or external sources
+
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then 
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh";
     fi
-fi
-
-if command -v fortune>/dev/null; then
-    echo "fortune: -----------------------------------------------------------"
-    fortune | sed 's/^/    /g';
-    echo "--------------------------------------------------------------------"
-fi
-
-if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then 
+    if command -v fortune>/dev/null; then
+        echo "fortune: -----------------------------------------------------------"
+        fortune | sed 's/^/    /g';
+        echo "--------------------------------------------------------------------"
+    fi
     # modify $PATH to make programs & configuration variables available:
     . ~/.dotfiles/programs/yarn.sh
     . ~/.dotfiles/programs/conda.sh
