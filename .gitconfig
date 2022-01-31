@@ -6,7 +6,7 @@
 	; alias 'git git' to 'git' to avoid copy-pasting errors
 	git = !git
 	co = checkout
-	s = status
+	s = status --short
 	lo = log --oneline
 
 	; advanced, less-frequently-used aliases -----------------------------------
