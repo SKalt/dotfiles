@@ -19,5 +19,16 @@
 		"prefix": "this_d",
 		"body": "this_dir=\"\\${BASH_SOURCE[0]%/*}\"",
 		"description": "Get a relative or absolute path to the current file"
+	},
+	"Parse args": {
+		"scope": "shellscript",
+		"prefix": "while [ -n \"\\${1",
+		"body": "while [ -n \"\\${1:-}\" ]; do\n  case \"\\$1\" in\n    -h|--help) usage && exit 0;;\n  esac\ndone",
+		"description": "arg-parsing that doesn't rely on getopt"
+	},
+	"Run main if invoked": {
+		"scope": "shellscript",
+		"prefix": "if [ \"$0",
+		"body": "if [ \"\\${BASH_SOURCE[0]}\" = \"\\$0\" ]; then main \"\\$@\"; fi"
 	}
 }
