@@ -39,6 +39,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"          ; fi
     if [ -d "$HOME/.til/bin"   ]; then PATH="$PATH:$HOME/.til/bin"   ; fi
     # ^ see github.com/skalt/til
+    if [ -d "$HOME/work/.brag/bin"   ]; then
+        PATH="$PATH:$HOME/work/.brag/bin";
+    fi
 fi
 
 export PROFILE_HAS_BEEN_SOURCED=true
