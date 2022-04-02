@@ -41,6 +41,6 @@ into() {
     ssh "$target_ip"
 }
 
-pretty_path() { echo "${PATH//:/\n}"; }
+pretty_path() { echo "$PATH" | tr ':' '\n'; }
 iso_date() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 weather() { curl wttr.in; }
