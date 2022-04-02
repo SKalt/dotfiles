@@ -20,6 +20,16 @@
 		"body": "this_dir=\"\\${BASH_SOURCE[0]%/*}\"",
 		"description": "Get a relative or absolute path to the current file"
 	},
+	"Should use color": {
+		"scope": "shellscript",
+		"prefix": "should_use_col",
+		"body": "should_use_color() {\n  test -t 1 && # stdout (device 1) is a tty\n  test -z \"\\${NO_COLOR:-}\" && # the NO_COLOR variable isn't set\n  command -v tput >/dev/null 2>&1 # the `tput` command is available\n}"
+	},
+	"Basic colors": {
+		"scope": "shellscript",
+		"prefix": "if should_use_col",
+		"body": "if should_use_color; then\n  red=\"\\$(   tput setaf 1)\"\n  green=\"\\$( tput setaf 2)\"\n  orange=\"\\$(tput setaf 3)\"\n  blue=\"\\$(  tput setaf 4)\"\n  purple=\"\\$(tput setaf 5)\"\n  teal=\"\\$(  tput setaf 6)\"\n  white=\"\\$( tput setaf 7)\"\n  reset=\"\\$(tput sgr0)\"\nelse\n  red=\"\"\n  green=\"\"\n  orange=\"\"\n  blue=\"\"\n  purple=\"\"\n  teal=\"\"\n  white=\"\"\n  reset=\"\"\nfi"
+	},
 	"Parse args": {
 		"scope": "shellscript",
 		"prefix": "while [ -n \"\\${1",
