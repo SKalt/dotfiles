@@ -1,8 +1,11 @@
 #!/bin/bash
+is_installed() { command -v "$1" >/dev/null 2>&1; }
 case "$(uname -s | tr '[:upper:]' '[:lower:]')" in
-    linux) 
-        if command -v xclip &>/dev/null;
-            then cat - | xclip -sel clip
+    linux)
+        if is_installed xclip; then
+            cat - | xclip -sel clip
+        elif is_installed clip.exe; then # WSL only
+            cat - | clip.exe
         else
             echo 'xclip not installed'>&2;
             exit 127
