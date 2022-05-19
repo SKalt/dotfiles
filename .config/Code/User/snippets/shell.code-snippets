@@ -33,7 +33,7 @@
 	"Parse args": {
 		"scope": "shellscript",
 		"prefix": "while [ -n \"\\${1",
-		"body": "while [ -n \"\\${1:-}\" ]; do\n  case \"\\$1\" in\n    -h|--help) usage && exit 0;;\n  esac\ndone",
+		"body": "while [ -n \"\\${1:-}\" ]; do\n  case \"\\$1\" in\n    -h|--help) usage && exit 0;;\n    *) echo \"unexpected argument: \\$1\" >&2 && usage >&2 && exit 1;;\n  esac\ndone",
 		"description": "arg-parsing that doesn't rely on getopt"
 	},
 	"Run main if invoked": {
