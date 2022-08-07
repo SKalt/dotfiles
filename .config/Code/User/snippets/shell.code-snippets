@@ -34,7 +34,7 @@
 	"Basic colors": {
 		"scope": "shellscript",
 		"prefix": "if should_use_col",
-		"body": "if should_use_color; then\n  red=\"\\$(   tput setaf 1)\"\n  green=\"\\$( tput setaf 2)\"\n  orange=\"\\$(tput setaf 3)\"\n  blue=\"\\$(  tput setaf 4)\"\n  purple=\"\\$(tput setaf 5)\"\n  teal=\"\\$(  tput setaf 6)\"\n  white=\"\\$( tput setaf 7)\"\n  reset=\"\\$(tput sgr0)\"\nelse\n  red=\"\"\n  green=\"\"\n  orange=\"\"\n  blue=\"\"\n  purple=\"\"\n  teal=\"\"\n  white=\"\"\n  reset=\"\"\nfi"
+		"body": "if should_use_color; then\n  red=\"\\$(tput setaf 1)\"\n  green=\"\\$(tput setaf 2)\"\n  orange=\"\\$(tput setaf 3)\"\n  blue=\"\\$(tput setaf 4)\"\n  purple=\"\\$(tput setaf 5)\"\n  teal=\"\\$(tput setaf 6)\"\n  white=\"\\$(tput setaf 7)\"\n  reset=\"\\$(tput sgr0)\"\nelse\n  red=\"\"\n  green=\"\"\n  orange=\"\"\n  blue=\"\"\n  purple=\"\"\n  teal=\"\"\n  white=\"\"\n  reset=\"\"\nfi"
 	},
 	"Parse args": {
 		"scope": "shellscript",
