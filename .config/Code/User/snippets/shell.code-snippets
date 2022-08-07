@@ -14,6 +14,12 @@
 		],
 		"description": "Read a usage message from the header of $0"
 	},
+	"shebang": {
+		"scope": "shellscript",
+		"prefix": "#!",
+		"body": "#!/usr/bin/env bash",
+		"description": "bash shebang"
+	},
 	"This dir": {
 		"scope": "shellscript",
 		"prefix": "this_d",
