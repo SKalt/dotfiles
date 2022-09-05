@@ -23,7 +23,7 @@
 	"This dir": {
 		"scope": "shellscript",
 		"prefix": "this_d",
-		"body": "this_dir=\"\\${BASH_SOURCE[0]%/*}\"",
+		"body": "if [[ \"\\${BASH_SOURCE[0]}\" = */* ]]; then this_dir=\"\\${BASH_SOURCE[0]%/*}\"; else this_dir=.; fi",
 		"description": "Get a relative or absolute path to the current file"
 	},
 	"Should use color": {
