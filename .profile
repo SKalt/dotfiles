@@ -28,10 +28,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/pyenv.sh
     . ~/.dotfiles/programs/deno.sh
     . ~/.dotfiles/programs/docker.sh
-    . ~/.dotfiles/programs/pyenv.sh
     . ~/.dotfiles/programs/cs.sh
     . ~/.dotfiles/programs/n.sh
-    . ~/.dotfiles/programs/editor.sh 
+    . ~/.dotfiles/programs/editor.sh
 
     # set PATH so it includes user's private bin(s) if they exist
     if [ -d "$HOME/bin"        ]; then PATH="$HOME/bin:$PATH"        ; fi

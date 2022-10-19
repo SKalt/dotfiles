@@ -78,13 +78,13 @@ plugins=(
     npm
 
     python
-    pyenv
 
     rust
     golang
     docker
 
     aws
+    kubectl
 )
 
 source "$ZSH/oh-my-zsh.sh"
