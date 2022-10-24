@@ -83,3 +83,7 @@ symbol = " "
 
 [swift]
 symbol = "ﯣ "
+
+[kubernetes]
+symbol = "☸ "
+disabled = false
