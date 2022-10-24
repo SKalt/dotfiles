@@ -37,27 +37,35 @@ tailscale_ip() {
     if [ -n "${1:-}" ]; then
         tailscale status | grep "$1" | awk '{ print $1 }'
     else
-        tailscale status |    fzf    | awk '{ print $1 }'
+        tailscale status | fzf | awk '{ print $1 }'
     fi
 }
 
 into() {
     local target_ip
-    local username;
-    local query;
+    local username
+    local query
     while [ -n "${1:-}" ]; do
-      case "$1" in
-        -h|--help) echo "into [-h|--help] [[-u] USER | [--user[=]]USER] [QUERY]" && exit 0;;
-        -u|--user) shift; username=$1; shift; ;;
-        --user=*) username="${1%=*}"; shift;;
-        *) query="$1"; shift;;
-      esac
+        case "$1" in
+        -h | --help) echo "into [-h|--help] [[-u] USER | [--user[=]]USER] [QUERY]" && exit 0 ;;
+        -u | --user)
+            shift
+            username=$1
+            shift
+            ;;
+        --user=*)
+            username="${1%=*}"
+            shift
+            ;;
+        *)
+            query="$1"
+            shift
+            ;;
+        esac
     done
     if test -z "$username"; then username="$(whoami)"; fi
     target_ip="$(tailscale_ip "$query")"
     ssh "${username}@${target_ip}"
 }
 
-pretty_path() { echo "$PATH" | tr ':' '\n'; }
-iso_date() { date '+%Y-%m-%dT%H:%M:%S%z'; }
 weather() { curl wttr.in; }
