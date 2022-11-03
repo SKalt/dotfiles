@@ -36,8 +36,6 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-eval "$(starship init bash)"
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -82,6 +80,10 @@ if ! shopt -oq posix; then
     fi
 fi
 
-[[ -s "/home/steven/.gvm/scripts/gvm" ]] && source "/home/steven/.gvm/scripts/gvm"
+if (command -v starship &>/dev/null); then
+    eval "$(starship init bash)"
+else
+    export PS1='$(tput setaf $?);$(tput sgr0) '
+fi
 
 if (command -v direnv &>/dev/null); then eval "$(direnv hook bash)"; fi
