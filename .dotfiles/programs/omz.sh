@@ -72,13 +72,13 @@ plugins=(
     git
     colored-man-pages
     command-not-found
+    direnv
 
     node
     yarn
     npm
 
     python
-    pyenv
 
     rust
     golang
