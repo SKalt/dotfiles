@@ -16,8 +16,7 @@
 	current-branch = rev-parse --abbrev-ref HEAD
 	; git-history is a git extension in ~/bin
 	h = "!f(){ git history; }; f"
-
-	path = !echo \"${PATH//:/\\\\n}\"
+	path = !pretty-path
 	dark-mode = config core.pager 'delta --theme=\"Solarized (dark)\"'
 	light-mode = config core.pager 'delta --theme=\"Solarized (light)\"'
 
