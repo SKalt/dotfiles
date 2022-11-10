@@ -72,6 +72,7 @@ plugins=(
     git
     colored-man-pages
     command-not-found
+    direnv
 
     node
     yarn
@@ -91,7 +92,11 @@ source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
-eval "$(starship init zsh)" # theme the prompt using starship
+if (command -v starship &>/dev/null); then
+    eval "$(starship init zsh)" # theme the prompt using starship
+else
+    export PS1='$(tput setaf $?);$(tput sgr0) '
+fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
