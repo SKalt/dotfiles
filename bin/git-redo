@@ -1,0 +1,5 @@
+#!/bin/sh
+git_dir="$(git rev-parse --absolute-git-dir || exit 127)"
+! [ -d "${git_dir}" ] && exit 127
+! [ -f "${git_dir}/COMMIT_EDITMSG" ] && exit 127
+git commit -m "$(cat "${git_dir}/COMMIT_EDITMSG")" "$@"
