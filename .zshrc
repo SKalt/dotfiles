@@ -1,3 +1,4 @@
+# zmodload zsh/zprof
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     source ~/.zprofile
 fi
@@ -7,3 +8,4 @@ fi
 source ~/.dotfiles/programs/omz.sh
 source ~/.dotfiles/aliases.sh
 source ~/.dotfiles/functions.sh
+# zprof >/tmp/zprof
