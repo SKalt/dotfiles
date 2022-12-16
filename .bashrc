@@ -86,4 +86,4 @@ else
     export PS1='$(tput setaf $?);$(tput sgr0) '
 fi
 
-if (command -v direnv &>/dev/null); then eval "$(direnv hook bash)"; fi
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
