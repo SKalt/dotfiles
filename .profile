@@ -9,6 +9,7 @@
 # shellcheck disable=SC1090,SC1091
 # ^ don't warn about non-constant or external sources
 
+. ~/.dotfiles/programs/fuck.sh # <- defines a function
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh"
@@ -25,7 +26,6 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/gvm.sh
     . ~/.dotfiles/programs/cargo.sh
     . ~/.dotfiles/programs/flyctl.sh
-    . ~/.dotfiles/programs/fuck.sh
     . ~/.dotfiles/programs/pyenv.sh
     . ~/.dotfiles/programs/deno.sh
     . ~/.dotfiles/programs/docker.sh
