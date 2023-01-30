@@ -33,6 +33,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/n.sh
     . ~/.dotfiles/programs/editor.sh
     . ~/.dotfiles/programs/pnpm.sh
+    . ~/.dotfiles/programs/tfenv.sh
 
     # set PATH so it includes user's private bin(s) if they exist
     if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
@@ -43,6 +44,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ -d "$HOME/work/.brag/bin" ]; then
         PATH="$PATH:$HOME/work/.brag/bin"
     fi
+    export PG_COLOR=auto # see https://www.postgresql.org/docs/current/color-when.html
 fi
 
 export PROFILE_HAS_BEEN_SOURCED=true
