@@ -41,6 +41,41 @@ tailscale_ip() {
     fi
 }
 
+clone_into() {
+  clone_into_dry_run=false
+  clone_into_repo_url=""
+  clone_into_target_dir=""
+  while [ -n "${1:-}" ]; do
+    case "$1" in
+      -h|--help)
+        echo "USAGE: clone_into [-h|--help] [-d|--dry-run] REPO_URL [TARGET_DIR]"
+        echo "clone and cd into a git repo in one go"
+        return 0
+        ;;
+      -d|--dry-run) clone_into_dry_run=true; shift ;;
+      *)
+        if [ -z "${clone_into_repo_url:-}" ]; then clone_into_repo_url="$1"; shift;
+        elif [ -z "${clone_into_target_dir:-}" ]; then clone_into_target_dir="$1"; shift;
+        else fail "unexpected argument: $1"
+        fi
+      ;;
+    esac
+  done
+  if [ -z "${clone_into_repo_url:-}" ]; then
+    echo "missing argument: REPO_URL" >&2
+    return 1
+  fi
+  if [ -z "${clone_into_target_dir:-}" ]; then
+    clone_into_target_dir="$(basename "$clone_into_repo_url" .git)"
+  fi
+  clone_into_cmd="git clone $clone_into_repo_url $clone_into_target_dir && cd $clone_into_target_dir"
+  if [ "$clone_into_dry_run" = true ]; then
+    echo "$clone_into_cmd"
+  else
+    eval "$clone_into_cmd"
+  fi
+}
+
 into() {
     local target_ip
     local username

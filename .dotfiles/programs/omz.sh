@@ -83,7 +83,7 @@ plugins=(
     rust
     golang
     docker
-
+    nix-zsh-completions
     aws
     kubectl
 )
