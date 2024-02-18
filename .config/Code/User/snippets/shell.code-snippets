@@ -23,7 +23,7 @@
 	"This dir": {
 		"scope": "shellscript",
 		"prefix": "this_d",
-		"body": "if [[ \"\\${BASH_SOURCE[0]}\" = */* ]]; then this_dir=\"\\${BASH_SOURCE[0]%/*}\"; else this_dir=.; fi",
+		"body": "# shellcheck disable=SC2296\nif [[ \"\\${BASH_SOURCE[0]}\" = */* ]]; then this_dir=\"\\${BASH_SOURCE[0]%/*}\"; # bash\nelif [ -n \"${(%):-%N}\" ]; then this_dir=\"${(%):-%N}\";                     # zsh\nelse this_dir=.;\nfi",
 		"description": "Get a relative or absolute path to the current file"
 	},
 	"Should use color": {
