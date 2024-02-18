@@ -1,6 +1,7 @@
 [user]
 	email = kalt.steven@gmail.com
 	name = Steven Kalt
+
 [alias]
 	; common aliases -----------------------------------------------------------
 	; alias 'git git' to 'git' to avoid copy-pasting errors
@@ -32,9 +33,31 @@
 
 [includeIf "gitconfig:/home/"]
 	path = ~/.dotfiles/linux.gitconfig
+
 [init]
 	defaultBranch = main
+
 [credential "https://github.com"]
 	helper = !/usr/bin/gh auth git-credential
+
 [credential "https://gist.github.com"]
 	helper = !/usr/bin/gh auth git-credential
+
+[core]
+	editor = code --wait
+	excludesfile = ~/.config/git/ignore
+
+[url "git@github.com:"]
+	insteadOf = "https://github.com/"
+
+[commit]
+	verbose = true
+
+[push]
+	autosetupremote = true
+
+[help]
+	autocorrect = 10
+
+[log]
+	date = iso
