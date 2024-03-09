@@ -22,8 +22,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     # modify $PATH to make programs & configuration variables available:
     . ~/.dotfiles/programs/yarn.sh
     . ~/.dotfiles/programs/conda.sh
-    . ~/.dotfiles/programs/go.sh
     . ~/.dotfiles/programs/gvm.sh
+    . ~/.dotfiles/programs/goenv.sh
+    . ~/.dotfiles/programs/go.sh
     . ~/.dotfiles/programs/cargo.sh
     . ~/.dotfiles/programs/flyctl.sh
     . ~/.dotfiles/programs/pyenv.sh

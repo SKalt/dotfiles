@@ -47,8 +47,14 @@
 	editor = code --wait
 	excludesfile = ~/.config/git/ignore
 
+; rewrite the remote url to use ssh instead of https
+; see https://jvns.ca/blog/2024/02/16/popular-git-config-options/#url-git-github-com-insteadof-https-github-com
+; see https://git-scm.com/docs/git-config#Documentation/git-config.txt-urlltbasegtinsteadOf
 [url "git@github.com:"]
 	insteadOf = "https://github.com/"
+
+[url "git@gitlab.com:"]
+	insteadOf = "https://gitlab.com/"
 
 [commit]
 	verbose = true
@@ -61,3 +67,7 @@
 
 [log]
 	date = iso
+
+[tag]
+	sort = version:refname
+	; see https://git-scm.com/docs/git-config#Documentation/git-config.txt-tagsort
