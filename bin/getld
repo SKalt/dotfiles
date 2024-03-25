@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+curl -s https://data.iana.org/TLD/tlds-alpha-by-domain.txt | grep -v '^#' | fzf
