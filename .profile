@@ -37,6 +37,10 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/tfenv.sh
 
     # set PATH so it includes user's private bin(s) if they exist
+    # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging 
+    if [ -d "/nix/var/nix/profiles/default/bin/" ]; then
+        PATH="/nix/var/nix/profiles/default/bin/:$PATH";
+    fi
     if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
     if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi

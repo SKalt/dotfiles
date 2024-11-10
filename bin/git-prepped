@@ -1,0 +1,40 @@
+#!/bin/sh
+### USAGE git-prepped [-h] [-m MAIN_BRANCH|--main[=]MAIN_BRANCH] REMOTE_URL [DIR]
+### prep the repo for multi-worktree use
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'; }
+
+main() {
+  set -eu
+  MAIN_BRANCH="main"
+  DRY_RUN=""
+  while [ -n "${1:-}" ]; do
+    case "$1" in
+      -h) usage && exit 0;;
+      --main=*) MAIN_BRANCH="${1#*=}";;
+      --dry-run) DRY_RUN=true;;
+      -m|--main) shift && MAIN_BRANCH="$1";;
+      --) shift; break;; # keep args after this
+      *) 
+        REMOTE_URL="$1"
+        if [ -n "${2:-}" ]; then
+          DIR="$2"
+        else
+          DIR="${REMOTE_URL##*/}"
+          DIR="${DIR%.git}"
+        fi
+        ;;
+    esac
+    shift
+  done
+  cmd="git clone --bare $REMOTE_URL $DIR $*"
+  cmd="$cmd && cd $DIR && git worktree add $MAIN_BRANCH"
+  if [ "$DRY_RUN" = "true" ]; then
+    echo "$cmd"
+  else
+    set -x
+    eval "$cmd"
+    set +x
+  fi 
+}
+
+main "$@"
