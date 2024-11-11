@@ -17,3 +17,8 @@ dotfiles() { git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME" "$@"; }
 dotfiles config core.excludesFile "$HOME/.dotfiles/dotfiles_exclude"
 dotfiles checkout
 dotfiles reset --hard
+
+if command -v zsh >/dev/null; then
+  sudo chsh "$(id -un)" --shell "$(command -v zsh)"
+  #    ^^^^ can be substituted for `usermod`
+fi
