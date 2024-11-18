@@ -73,3 +73,5 @@
 	; see https://git-scm.com/docs/git-config#Documentation/git-config.txt-tagsort
 [pull]
 	rebase = false
+[gpg]
+	format = ssh
