@@ -12,3 +12,4 @@ source ~/.dotfiles/programs/atuin.sh # gets clobbered if sourced before omz
 
 # zprof >/tmp/zprof
 # direnv hooked by OMZ plugin -- `direnv hook zsh` omitted here.
+

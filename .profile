@@ -41,6 +41,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ -d "/nix/var/nix/profiles/default/bin/" ]; then
         PATH="/nix/var/nix/profiles/default/bin/:$PATH";
     fi
+    if [ -e "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
     if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
     if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
@@ -53,3 +54,4 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
 fi
 
 export PROFILE_HAS_BEEN_SOURCED=true
+
