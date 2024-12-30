@@ -26,8 +26,10 @@ main() {
     esac
     shift
   done
-  cmd="git clone --bare $REMOTE_URL $DIR $*"
-  cmd="$cmd && cd $DIR && git worktree add $MAIN_BRANCH"
+  cmd="mkdir -p $DIR"
+  cmd="$cmd && git clone --bare $REMOTE_URL $DIR/.git $*"
+  cmd="$cmd && cd $DIR"
+  cmd="$cmd && git worktree add $MAIN_BRANCH $MAIN_BRANCH"
   if [ "$DRY_RUN" = "true" ]; then
     echo "$cmd"
   else
