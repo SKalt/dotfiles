@@ -92,3 +92,4 @@ command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 # FIXME: not sure what program generated ~/.bash-preexec.sh
 # [[ -f ~/.bash-preexec.sh ]] && . ~/.bash-preexec.sh
 
+. "$HOME/.cargo/env"

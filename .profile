@@ -36,6 +36,10 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/pnpm.sh
     . ~/.dotfiles/programs/tfenv.sh
 
+    if [ -n "${GOENV_ROOT:-}" ]; then
+      PATH="$GOENV_ROOT/shims:$PATH"
+    fi
+
     # set PATH so it includes user's private bin(s) if they exist
     # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging 
     if [ -d "/nix/var/nix/profiles/default/bin/" ]; then
