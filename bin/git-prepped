@@ -3,6 +3,12 @@
 ### prep the repo for multi-worktree use
 usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'; }
 
+extract_default_dir() {
+  _url="$1"
+  _dir="${_url##*/}"
+  _dir="${_dir%.git}"
+  echo "$_dir"
+}
 main() {
   set -eu
   MAIN_BRANCH="main"
@@ -14,15 +20,15 @@ main() {
       --dry-run) DRY_RUN=true;;
       -m|--main) shift && MAIN_BRANCH="$1";;
       --) shift; break;; # keep args after this
-      *) 
-        REMOTE_URL="$1"
-        if [ -n "${2:-}" ]; then
-          DIR="$2"
-        else
-          DIR="${REMOTE_URL##*/}"
-          DIR="${DIR%.git}"
-        fi
-        ;;
+      *)
+        REMOTE_URL="$1"; shift;
+        DIR=""
+        case "$#" in
+          0) DIR="$(extract_default_dir "$REMOTE_URL")";;
+          1) DIR="$1"; shift;;
+          *) echo "Too many arguments" >&2; usage >&2; exit 1;;
+        esac
+        break;;
     esac
     shift
   done
@@ -31,12 +37,15 @@ main() {
   cmd="$cmd && cd $DIR"
   cmd="$cmd && git worktree add $MAIN_BRANCH $MAIN_BRANCH"
   if [ "$DRY_RUN" = "true" ]; then
+    echo "MAIN_BRANCH=$MAIN_BRANCH"
+    echo "REMOTE_URL=$REMOTE_URL"
+    echo "DIR=$DIR"
     echo "$cmd"
   else
     set -x
     eval "$cmd"
     set +x
-  fi 
+  fi
 }
 
 main "$@"
