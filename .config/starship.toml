@@ -32,6 +32,9 @@ symbol = " "
 [golang]
 symbol = " "
 
+[hostname]
+ssh_symbol = "🌐 "
+
 [hg_branch]
 symbol = " "
 
