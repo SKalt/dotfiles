@@ -34,6 +34,9 @@
 [includeIf "gitconfig:/home/"]
 	path = ~/.dotfiles/linux.gitconfig
 
+[includeIf "gitdir:~/programming/"]
+	path = ~/programming/.gitconfig
+
 [init]
 	defaultBranch = main
 
