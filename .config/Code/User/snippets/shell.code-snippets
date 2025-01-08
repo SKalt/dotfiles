@@ -10,7 +10,7 @@
 		"scope": "shellscript",
 		"prefix": "usa",
 		"body": [
-			"usage() { grep '^###' \"\\$0\"  | sed 's/^### //g; s/^###//g'; }",
+			"usage() { grep '^###' \"\\$0\"  | sed 's/^### //g; s/^###//g'| sed \"s#\\$0#$0#g\"; }",
 		],
 		"description": "Read a usage message from the header of $0"
 	},
