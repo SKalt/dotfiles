@@ -88,6 +88,7 @@ plugins=(
     kubectl
 )
 
+# shellcheck disable=SC1091
 source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
