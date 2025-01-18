@@ -35,6 +35,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/editor.sh
     . ~/.dotfiles/programs/pnpm.sh
     . ~/.dotfiles/programs/tfenv.sh
+    . ~/.dotfiles/programs/nix.sh
 
     if [ -n "${GOENV_ROOT:-}" ]; then
       PATH="$GOENV_ROOT/shims:$PATH"
