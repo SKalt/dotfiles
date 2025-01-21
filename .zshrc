@@ -23,3 +23,5 @@ unset f
 
 # direnv hooked by OMZ plugin -- `direnv hook zsh` omitted here.
 
+
+. "$HOME/.local/bin/env"
