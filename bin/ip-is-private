@@ -1,0 +1,64 @@
+#!/bin/sh
+### Usage: $0 [-h|--help] [IP...]
+### determine if each of the input IP addresses are private
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'| sed "s#$0##g"; }
+
+# is_ip() {
+#   echo "$1" | awk '/^([0-9]+\.){3}[0-9]+$/ { print $1 }'
+# }
+
+IPS="" # space-delimited list of IP addresses
+main() {
+  set -eu
+  while [ -n "${1:-}" ]; do
+    case "$1" in
+      -h|--help) usage && exit 0;;
+      0*|1*|2*) IPS="$IPS $1"; shift;;
+      -) shift; IPS="$(cat -)";;
+      *) echo "unexpected argument: $1" >&2 && usage >&2 && exit 1;;
+    esac
+  done
+  if [ -z "$IPS" ]; then IPS="$(cat -)"; fi
+  for ip in $IPS; do
+    printf "%s" "$ip"
+    case "$ip" in
+      *.*) 
+        # ipv4 ###################################################################
+        printf "\tv4\t"
+        case "$ip" in 
+          10.*.*.*) printf   "private\tlocal";;
+          100.64.*.*) printf "private\tNAT";; # communications between a service provider and its subscribers when using a carrier-grade NAT
+          127.*.*.*) printf  "private\tloopback";; 
+          172.*.*.*)
+            section=;section="$(cut -d. -f2)"
+            if [ "$section" -gt 15 ] && [ "$section" -lt 32 ]; then
+              printf "private\tlocal"
+            else
+              printf "public\t"
+            fi
+            ;;
+          192.0.0.*) printf "private\tprotocol-assignments";; # IETF Protocol Assignments
+          192.168.*.*) printf "private\tlocal";;
+          198.18.*.*) printf "private\tbenchmark" ;; # Used for benchmark testing of inter-network communications ...
+          198.19.*.*) printf "private\tbenchmark" ;; # ... between two separate subnets
+          *) printf "public\t"
+        esac
+      ;;
+      *:*)
+        # ipv6 ###################################################################
+        printf "\tv6\t"
+        case "$ip" in
+          ::1 )        printf "private\tlocalhost" ;;
+          64:ff9b:1:*) printf "private\tv4<->v6"   ;; # IPv4/IPv6 translation for private internets
+          fc*|fd*)     printf "private\tlocal"     ;; # Private internets: unique local address; see https://en.wikipedia.org/wiki/Unique_local_address
+          fe80:* )     printf "private\tlink-local";; # link-local
+          *)           printf "public\t"
+        esac
+        ;;
+      *) printf "INVALID\t" ;;
+    esac
+    echo
+  done
+}
+
+main "$@"
