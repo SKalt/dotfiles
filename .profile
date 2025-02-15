@@ -56,7 +56,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
         PATH="$PATH:$HOME/work/.brag/bin"
     fi
     export PG_COLOR=auto # see https://www.postgresql.org/docs/current/color-when.html
+    PROFILE_HAS_BEEN_SOURCED=true
+    PROFILE_HAS_BEEN_SOURCED="$(date '+%Y-%m-%dT%H:%M:%S%z')"
+    export PROFILE_HAS_BEEN_SOURCED
 fi
 
-export PROFILE_HAS_BEEN_SOURCED=true
 
