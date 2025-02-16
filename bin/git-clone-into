@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+### git-clone-into [-h|--help] [--dry-run]
+###                [-w|--worktree BRANCH_NAME] [-m|--main MAIN_BRANCH]
+###                REPO_URL [TARGET_DIR] | xargs source
+### clone into a git repo, optionally setting up git worktrees.
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'| sed "s#$0##g"; }
+fail() {
+  local message="$1"
+  local err_code="${2:-1}"
+  { echo "$message" ; usage; }>&2
+  exit "$err_code"
+}
+extract_default_dir() {
+  local base_name="${1##*/}"
+  echo "${base_name%.git}"
+}
+main() {
+  set -euo pipefail
+  local dry_run=false
+  local clone_args=()
+  local repo_url=""
+  local directory=""
+  local worktree=""
+  local main_branch="main"
+  while [ -n "${1:-}" ]; do
+    case "$1" in
+      -h|--help) usage && exit 0;;
+      --dry-run) shift; dry_run=true;;
+      -w|--worktree) shift; worktree="$1";          shift;;
+      --worktree=*)         worktree="${1##*=}";    shift;;
+      -m|--main    ) shift; main_branch="$1";       shift;;
+      --main=*     )        main_branch="${1##*=}"; shift;;
+      -*)  # collect args for `git-clone`
+        case "$1" in
+          -l | -s | -q | -n  |\
+          --no-hardlinks     |\
+          --bare             |\
+          --mirror           |\
+          --template=*       |\
+          --dissociate       |\
+          --*submodules*     |\
+          --filter=*         |\
+          --*single-branch   |\
+          --no-tags          |\
+          --*reject-shallow  |\
+          --sparse           |\
+          --                 ) clone_args+=("$1"); shift 1;;
+          -o | -b | -u       |\
+          --reference        |\
+          --separate-git-dir |\
+          --depth            |\
+          --jobs             ) clone_args+=("$1" "$2"); shift 2;;
+          *) fail "unexpected flag: $1"
+        esac
+        ;;
+      *)
+        if   [ -z "${repo_url:-}"  ]; then repo_url="$1" ; shift;
+        elif [ -z "${directory:-}" ]; then directory="$1"; shift;
+        else fail "too many arguments: $1"
+        fi
+        ;;
+    esac
+  done
+  if [ -z "${repo_url:-}" ]; then fail "missing repo URL"; fi
+  if [ -z "${directory:-}" ]; then
+    directory="$(extract_default_dir "$repo_url")"
+  fi
+  if [ -n "$worktree" ]; then
+    clone_args+=("--bare")
+  fi
+  local cmd="{"
+  cmd="$cmd\n  mkdir -p $directory"
+  cmd="$cmd\n  git clone ${clone_args[*]} $repo_url $directory"
+  if [ -n "$worktree" ]; then cmd="$cmd/.git"; fi
+  cmd="$cmd\n  cd $directory"
+  if [ -n "$worktree" ]; then
+    cmd="$cmd\n  git worktree add main $main_branch"
+    cmd="$cmd\n  git worktree add -b $worktree work"
+  fi
+  cmd="$cmd\n}>&2; echo $directory"
+  if [ -n "$worktree" ]; then cmd="$cmd/work"; fi
+
+  # unescape newlines
+  # shellcheck disable=SC2059
+  cmd="$(printf "$cmd")"
+  case "$dry_run" in
+    true)
+      echo    "repo_url=$repo_url"
+      echo   "directory=$directory"
+      echo    "worktree=$worktree"
+      echo "main_branch=$main_branch"
+      echo  "clone_args=${clone_args[*]}"
+      printf "%s" "$cmd"
+      ;;
+    false) eval "$cmd";;
+  esac
+}
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then main "$@"; fi
