@@ -11,6 +11,11 @@
 	lo = log --oneline
 
 	; advanced, less-frequently-used aliases -----------------------------------
+
+	;;; see https://stackoverflow.com/a/18269026
+	push-notes = push origin 'refs/notes/*'
+	fetch-notes = fetch origin 'refs/notes/*:refs/notes/*'
+
 	find-branch = !git branch --list "*$1*"
 	fb = find-branch
 	root = rev-parse --show-toplevel

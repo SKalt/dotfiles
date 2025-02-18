@@ -16,9 +16,9 @@ main() {
   while [ -n "${1:-}" ]; do
     case "$1" in
       -h) usage && exit 0;;
-      --main=*) MAIN_BRANCH="${1#*=}";;
       --dry-run) DRY_RUN=true;;
-      -m|--main) shift && MAIN_BRANCH="$1";;
+      --main=*) MAIN_BRANCH="${1#*=}";;
+      -m|--main) shift; MAIN_BRANCH="$1";;
       --) shift; break;; # keep args after this
       *)
         REMOTE_URL="$1"; shift;
