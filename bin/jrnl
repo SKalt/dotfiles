@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+dir=~/programming/obs/journal
+if [ ! -d "$dir" ]; then echo "$dir does not exist"; exit 127; fi
+dir="$dir/$(date +%Y/%m)"
+mkdir -p "$dir"
+cd "$dir"
+file="$(date +%d).md"
+if [ ! -f  "$file" ]; then 
+echo "----
+date: $(date +%Y-%m-%d)
+---
+" > "$file"
+fi
+${EDITOR:-vi} "$file"
