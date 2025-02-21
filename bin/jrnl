@@ -2,14 +2,19 @@
 set -eu
 dir=~/programming/obs/journal
 if [ ! -d "$dir" ]; then echo "$dir does not exist"; exit 127; fi
-dir="$dir/$(date +%Y/%m)"
+_args=()
+case "${1:-}" in
+ -y|--yesterday) _args+=( -d "yesterday 13:00");;
+ *) exit 1;;
+esac
+dir="$dir/$(date "${_args[@]}" +%Y/%m)"
 mkdir -p "$dir"
 cd "$dir"
-file="$(date +%d).md"
+file="$(date "${_args[@]}" +%d).md"
 if [ ! -f  "$file" ]; then 
-echo "----
-date: $(date +%Y-%m-%d)
----
-" > "$file"
+  echo "---
+        date: $(date +%Y-%m-%d)
+        ---
+        " | sed 's/^        //g' > "$file"
 fi
 ${EDITOR:-vi} "$file"
