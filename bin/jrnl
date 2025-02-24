@@ -4,7 +4,12 @@ dir=~/programming/obs/journal
 if [ ! -d "$dir" ]; then echo "$dir does not exist"; exit 127; fi
 _args=()
 case "${1:-}" in
- -y|--yesterday) _args+=( -d "yesterday 13:00");;
+ -y|--yesterday)
+    case "$(uname -s | tr '[:upper:]' '[:lower:]')" in
+      darwin) _args+=("-v1d") ;;
+      *) _args+=( -d "yesterday 13:00");;
+    esac
+    ;;
  *) exit 1;;
 esac
 dir="$dir/$(date "${_args[@]}" +%Y/%m)"
