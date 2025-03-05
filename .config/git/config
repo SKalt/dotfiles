@@ -68,7 +68,8 @@
 	verbose = true
 
 [push]
-	autosetupremote = true
+	autoSetupRemote = true
+	followTags = true
 
 [help]
 	autocorrect = 10
@@ -83,3 +84,16 @@
 	rebase = false
 [gpg]
 	format = ssh
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
