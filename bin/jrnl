@@ -1,25 +1,32 @@
 #!/bin/bash
+### USAGE: $0 [-h|--help] [-y|--yesterday]
+### Write an obsidian journal entry.
+
 set -eu
 dir=~/programming/obs/journal
 if [ ! -d "$dir" ]; then echo "$dir does not exist"; exit 127; fi
-_args=()
-case "${1:-}" in
- -y|--yesterday)
-    case "$(uname -s | tr '[:upper:]' '[:lower:]')" in
-      darwin) _args+=("-v1d") ;;
-      *) _args+=( -d "yesterday 13:00");;
-    esac
-    ;;
- *) exit 1;;
-esac
-dir="$dir/$(date "${_args[@]}" +%Y/%m)"
+_date() { date "$@"; }
+if [ "$#" -gt 0 ]; then
+  case "${1:-}" in
+    -y|--yesterday)
+        _date(){ 
+           date -v-1d "$@" 2>/dev/null ||
+           date -d "yesterday 13:00" "$@" 2>/dev/null;
+        } ;;
+    *) echo "invalid argument $1" >&2 && exit 1;;
+  esac
+fi
+
+dir="$dir/$(_date +%Y/%m)"
 mkdir -p "$dir"
 cd "$dir"
-file="$(date "${_args[@]}" +%d).md"
+iso_date="$(_date +%Y-%m-%d)"
+file="$dir/$(_date +%d).md"
 if [ ! -f  "$file" ]; then 
   echo "---
-        date: $(date +%Y-%m-%d)
+        date: ${iso_date}
         ---
         " | sed 's/^        //g' > "$file"
 fi
+echo "$iso_date" "$file"
 ${EDITOR:-vi} "$file"
