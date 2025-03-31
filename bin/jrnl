@@ -1,6 +1,7 @@
 #!/bin/bash
 ### USAGE: $0 [-h|--help] [-y|--yesterday]
 ### Write an obsidian journal entry.
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'| sed "s#\\\$0#$0#g"; }
 
 set -eu
 dir=~/programming/obs/journal
@@ -8,6 +9,7 @@ if [ ! -d "$dir" ]; then echo "$dir does not exist"; exit 127; fi
 _date() { date "$@"; }
 if [ "$#" -gt 0 ]; then
   case "${1:-}" in
+    -h|--help) usage && exit 0;;
     -y|--yesterday)
         _date(){ 
            date -v-1d "$@" 2>/dev/null ||
