@@ -11,6 +11,16 @@
 
 . ~/.dotfiles/programs/fuck.sh # <- defines a function
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
+    # attempt to detect the current shell
+    _shell="${SHELL##/*}"
+    if [ -n "${BASH_VERSION:-}" ]; then
+      _shell="bash"
+    elif [ -n "${ZSH_VERSION:-}" ]; then
+      _shell="zsh"
+    else
+      _shell="${SHELL##*/}"
+    fi
+
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh"
     fi
@@ -36,6 +46,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/pnpm.sh
     . ~/.dotfiles/programs/tfenv.sh
     . ~/.dotfiles/programs/nix.sh
+    . ~/.dotfiles/programs/mise.sh
 
     if [ -n "${GOENV_ROOT:-}" ]; then
       PATH="$GOENV_ROOT/shims:$PATH"
