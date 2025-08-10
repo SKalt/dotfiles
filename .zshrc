@@ -24,3 +24,6 @@ unset f
 # direnv hooked by OMZ plugin -- `direnv hook zsh` omitted here.
 
 if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
+
+_shell=zsh . ~/.dotfiles/programs/mise.sh
+_shell=zsh . ~/.dotfiles/programs/atuin.sh

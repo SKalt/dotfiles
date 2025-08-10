@@ -46,7 +46,6 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/pnpm.sh
     . ~/.dotfiles/programs/tfenv.sh
     . ~/.dotfiles/programs/nix.sh
-    . ~/.dotfiles/programs/mise.sh
 
     if [ -n "${GOENV_ROOT:-}" ]; then
       PATH="$GOENV_ROOT/shims:$PATH"
@@ -71,5 +70,6 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     PROFILE_HAS_BEEN_SOURCED="$(date '+%Y-%m-%dT%H:%M:%S%z')"
     export PROFILE_HAS_BEEN_SOURCED
 fi
+
 
 

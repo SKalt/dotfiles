@@ -94,3 +94,6 @@ command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
 
 if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
+
+_shell=bash . ~/.dotfiles/programs/mise.sh
+_shell=bash . ~/.dotfiles/programs/atuin.sh
