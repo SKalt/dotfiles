@@ -32,24 +32,14 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     # modify $PATH to make programs & configuration variables available:
     . ~/.dotfiles/programs/yarn.sh
     . ~/.dotfiles/programs/conda.sh
-    . ~/.dotfiles/programs/gvm.sh
-    . ~/.dotfiles/programs/goenv.sh
     . ~/.dotfiles/programs/go.sh
     . ~/.dotfiles/programs/cargo.sh
     . ~/.dotfiles/programs/flyctl.sh
-    . ~/.dotfiles/programs/pyenv.sh
     . ~/.dotfiles/programs/deno.sh
     . ~/.dotfiles/programs/docker.sh
     . ~/.dotfiles/programs/cs.sh
-    . ~/.dotfiles/programs/n.sh
     . ~/.dotfiles/programs/editor.sh
     . ~/.dotfiles/programs/pnpm.sh
-    . ~/.dotfiles/programs/tfenv.sh
-    # . ~/.dotfiles/programs/nix.sh
-
-    if [ -n "${GOENV_ROOT:-}" ]; then
-      PATH="$GOENV_ROOT/shims:$PATH"
-    fi
 
     # set PATH so it includes user's private bin(s) if they exist
     # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging 
