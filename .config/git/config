@@ -52,7 +52,6 @@
 	helper = !gh auth git-credential
 
 [core]
-	editor = code --wait
 	excludesfile = ~/.config/git/ignore
 
 # rewrite the remote url to use ssh instead of https
