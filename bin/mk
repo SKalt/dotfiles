@@ -1,0 +1,37 @@
+#!/bin/bash
+### USAGE: mk [+x] [-e] path/to/thing
+### Like `mkdir -p`, except it makes files AND directories.
+set -eu
+usage() { cat "$0" | grep -e "^###" | sed 's/### //g;' | sed  "s#\\\$0#$0#g"; }
+
+files=()
+directories=()
+edit=false
+executable=false
+
+for i in "$@"; do
+  case "$i" in
+    -h|--help) usage && exit 0     ;;
+    -e)        edit=true           ;;
+    -x)        executable=true     ;;
+    */)       directories+=("$i") ;;
+    *)        files+=("$i")       ;;
+  esac
+done
+
+for d in "${directories[@]}"; do
+  mkdir -p "$d";
+done
+
+
+for f in "${files[@]}"; do
+  mkdir -p "${i%/*}" && touch "$i";
+done
+
+if [ "$executable" = true ]; then
+  chmod +x "${files[@]}";
+fi
+
+if [ "$edit" = true ]; then
+  $EDITOR "${files[@]}" # "${directories[@]}"
+fi
