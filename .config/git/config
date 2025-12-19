@@ -29,6 +29,7 @@
 	; fun stuff ----------------------------------------------------------------
 	gud = "!f() { echo \"GIT GUD\" | figlet -c ; }; f"
 	tt = time-travel
+	c = commit
 
 [includeIf "gitdir:~/work/"]
 	path = ~/work/.gitconfig
