@@ -1,7 +1,7 @@
 #!/bin/sh
-case "${_shell:-}" in
-  bash|zsh) 
-    eval "$(mise activate "$_shell")"
-    export DOTFILES_MISE_ACTIVATED="${_shell} / $(date)"
-    ;;
-esac
+if command -v mise >/dev/null; then
+  case "${_shell:-}" in
+    bash|zsh)
+      eval "$(mise activate "$_shell" --shims)"
+  esac
+fi

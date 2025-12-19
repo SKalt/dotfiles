@@ -25,5 +25,10 @@ unset f
 
 if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
 
-_shell=zsh . ~/.dotfiles/programs/mise.sh
+command -v mise >/dev/null && eval "$(mise activate zsh)"
 _shell=zsh . ~/.dotfiles/programs/atuin.sh
+
+autoload -Uz compinit 
+compinit
+autoload bashcompinit
+bashcompinit

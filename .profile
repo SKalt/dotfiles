@@ -30,6 +30,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
         echo "--------------------------------------------------------------------"
     fi
     # modify $PATH to make programs & configuration variables available:
+    . ~/.dotfiles/programs/mise.sh
     . ~/.dotfiles/programs/yarn.sh
     . ~/.dotfiles/programs/conda.sh
     . ~/.dotfiles/programs/go.sh
@@ -40,7 +41,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/cs.sh
     . ~/.dotfiles/programs/editor.sh
     . ~/.dotfiles/programs/pnpm.sh
-
+    
     # set PATH so it includes user's private bin(s) if they exist
     # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging 
     if [ -d "/nix/var/nix/profiles/default/bin/" ]; then
