@@ -2,8 +2,8 @@
 is_installed() { command -v "$1" &>/dev/null; };
 # in order of preference
 editors=(
-  hx
   zed
+  hx
   nvim
   emacs
   vim
