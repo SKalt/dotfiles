@@ -1,0 +1,43 @@
+{
+  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  "Header-based usage": {
+    "prefix": "usa",
+    "body": [
+      "usage() { grep '^###' \"\\$0\"  | sed 's/^### //g; s/^###//g'| sed \"s#\\$0#$0#g\"; }",
+    ],
+    "description": "Read a usage message from the header of $0",
+  },
+  "shebang": {
+    "prefix": "#!",
+    "body": "#!/usr/bin/env bash",
+    "description": "bash shebang",
+  },
+  "This dir": {
+    "prefix": "this_d",
+    "body": "# shellcheck disable=SC2296\nif [[ \"\\${BASH_SOURCE[0]}\" = */* ]]; then this_dir=\"\\${BASH_SOURCE[0]%/*}\"; # bash\nelif [ -n \"${(%):-%N}\" ]; then this_dir=\"${(%):-%N}\";                     # zsh\nelse this_dir=.;\nfi",
+    "description": "Get a relative or absolute path to the current file",
+  },
+  "Should use color": {
+    "prefix": "should_use_col",
+    "body": "should_use_color() {\n  test -t 1 && # stdout (device 1) is a tty\n  test -z \"\\${NO_COLOR:-}\" && # the NO_COLOR variable isn't set\n  command -v tput >/dev/null 2>&1 # the `tput` command is available\n}",
+  },
+  "Basic colors": {
+    "prefix": "if should_use_col",
+    "body": "if should_use_color; then\n  red=\"\\$(tput setaf 1)\"\n  green=\"\\$(tput setaf 2)\"\n  orange=\"\\$(tput setaf 3)\"\n  blue=\"\\$(tput setaf 4)\"\n  purple=\"\\$(tput setaf 5)\"\n  teal=\"\\$(tput setaf 6)\"\n  white=\"\\$(tput setaf 7)\"\n  reset=\"\\$(tput sgr0)\"\nelse\n  red=\"\"\n  green=\"\"\n  orange=\"\"\n  blue=\"\"\n  purple=\"\"\n  teal=\"\"\n  white=\"\"\n  reset=\"\"\nfi",
+  },
+  "Parse args": {
+    "prefix": "while [ -n \"\\${1",
+    "body": "while [ -n \"\\${1:-}\" ]; do\n  case \"\\$1\" in\n    -h|--help) usage && exit 0;;\n    *) echo \"unexpected argument: \\$1\" >&2 && usage >&2 && exit 1;;\n  esac\ndone",
+    "description": "arg-parsing that doesn't rely on getopt",
+  },
+  "Run main if invoked": {
+    "prefix": "if [ \"$0",
+    "body": "if [ \"\\${BASH_SOURCE[0]}\" = \"\\$0\" ]; then main \"\\$@\"; fi",
+  },
+}
