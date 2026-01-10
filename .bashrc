@@ -83,7 +83,7 @@ fi
 if (command -v starship &>/dev/null); then
     eval "$(starship init bash)"
 else
-    export PS1='$(tput setaf $?);$(tput sgr0) '
+  export PS1='$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
 fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
