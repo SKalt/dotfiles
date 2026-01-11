@@ -1,0 +1,47 @@
+#!/bin/sh
+### USAGE: ,xc [-h|--help] [-m] [CMD...]
+### eXec and Copy to clipboard
+### 
+
+usage() { grep '^###' "$0"  | sed 's/^### //g;'; }
+
+should_use_color() {
+  test -t 1 && # stdout (device 1) is a tty
+  test -z "${NO_COLOR:-}" && # the NO_COLOR variable isn't set
+  command -v tput >/dev/null 2>&1 # the `tput` command is available
+}
+if should_use_color; then
+  gray="$(tput setaf 8)"
+  reset="$(tput sgr0)"
+else
+  gray=""
+  reset=""
+fi
+
+markdown=0
+while [ -n "${1:-}" ]; do
+  case "$1" in
+    -h|--help) usage && exit 0;;
+    -m|--markdown) markdown=1; shift;;
+    *) break;;
+  esac
+done
+
+cmd="$*"
+output=$(mktemp "${TEMP:-/tmp}/tmp.out.XXXXX")
+if [ $markdown = 1 ]; then
+  printf '```sh\n' >> "$output"
+fi
+printf '; %s\n' "$cmd" >> "$output"
+if [ $markdown = 1 ]; then
+  printf '```\n```\n' >> "$output"
+fi
+printf "%s" "$gray"
+( eval "$cmd"; echo "=> $?" ) | sed 's/^/# /g' | tee -a "$output"
+if [ $markdown = 1 ]; then
+  printf '```\n' >> "$output"
+fi
+printf "%s\n" "$reset"
+
+cat "$output" | copy
+
