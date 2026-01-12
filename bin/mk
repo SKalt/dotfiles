@@ -4,8 +4,8 @@
 set -eu
 usage() { cat "$0" | grep -e "^###" | sed 's/### //g;' | sed  "s#\\\$0#$0#g"; }
 
-files=()
-directories=()
+files=(_)
+directories=(_)
 edit=false
 executable=false
 
@@ -19,12 +19,12 @@ for i in "$@"; do
   esac
 done
 
-for d in "${directories[@]}"; do
+for d in "${directories[@]:1}"; do
   mkdir -p "$d";
 done
 
 
-for f in "${files[@]}"; do
+for f in "${files[@]:1}"; do
   mkdir -p "${i%/*}" && touch "$i";
 done
 
