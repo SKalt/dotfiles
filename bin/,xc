@@ -1,7 +1,7 @@
 #!/bin/sh
 ### USAGE: ,xc [-h|--help] [-m] [CMD...]
 ### eXec and Copy to clipboard
-### 
+###
 
 usage() { grep '^###' "$0"  | sed 's/^### //g;'; }
 
@@ -19,29 +19,31 @@ else
 fi
 
 markdown=0
+details=0
 while [ -n "${1:-}" ]; do
   case "$1" in
     -h|--help) usage && exit 0;;
     -m|--markdown) markdown=1; shift;;
+    -d|--details)  markdown=1; details=1; shift;;
     *) break;;
   esac
 done
 
 cmd="$*"
 output=$(mktemp "${TEMP:-/tmp}/tmp.out.XXXXX")
-if [ $markdown = 1 ]; then
-  printf '```sh\n' >> "$output"
-fi
-printf '; %s\n' "$cmd" >> "$output"
-if [ $markdown = 1 ]; then
-  printf '```\n```\n' >> "$output"
-fi
+{
+    [ $details  = 1 ] && printf "<details open>\n\n"
+    [ $markdown = 1 ] && printf '```sh\n'
+    [ $markdown = 0 ] && printf "; "
+    printf '%s\n' "$cmd"
+    [ $markdown = 1 ] && printf '```\n```\n'
+} >> "$output"
 printf "%s" "$gray"
-( eval "$cmd"; echo "=> $?" ) | sed 's/^/# /g' | tee -a "$output"
-if [ $markdown = 1 ]; then
-  printf '```\n' >> "$output"
-fi
-printf "%s\n" "$reset"
+( eval "$cmd"; echo "=> $?" ) 2>&1 | sed 's/^/# /g' | tee -a "$output"
+{
+    [ $markdown = 1 ] && printf '```\n'
+    [ $details  = 1 ] && printf "\n</details>\n"
+}  >> "$output"
+printf "%s" "$reset"
 
 cat "$output" | copy
-
