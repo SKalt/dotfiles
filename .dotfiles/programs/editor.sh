@@ -23,8 +23,8 @@ if [ -z "$EDITOR" ]; then
   for i in "${editors[@]}"; do
     if EDITOR=$(command -v "$i") && test -x "$EDITOR"; then
       case "$EDITOR" in
-        code*) EDITOR="$EDITOR --wait";;
-        zed*)  EDITOR="$EDITOR -nw";;
+        */code) EDITOR="$EDITOR --wait";;
+        */zed)  EDITOR="$EDITOR -nw";;
       esac
       break
     fi
