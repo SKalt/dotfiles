@@ -1,3 +1,6 @@
 #!sh
-$EDITOR "$@"
-
+case "$EDITOR" in
+  *-*) _EDITOR=$(echo "$EDITOR" | cut -d' ' -f1);;
+  *) _EDITOR="$EDITOR";;
+esac
+$_EDITOR "$@"
