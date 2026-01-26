@@ -41,9 +41,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     . ~/.dotfiles/programs/cs.sh
     . ~/.dotfiles/programs/editor.sh
     . ~/.dotfiles/programs/pnpm.sh
-    
+
     # set PATH so it includes user's private bin(s) if they exist
-    # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging 
+    # $PATH doesn't care if a directory exists or not, but keep the path minimal for debugging
     if [ -d "/nix/var/nix/profiles/default/bin/" ]; then
         PATH="/nix/var/nix/profiles/default/bin/:$PATH";
     fi
@@ -61,6 +61,3 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     PROFILE_HAS_BEEN_SOURCED="$(date '+%Y-%m-%dT%H:%M:%S%z')"
     export PROFILE_HAS_BEEN_SOURCED
 fi
-
-
-

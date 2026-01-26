@@ -15,7 +15,7 @@ source ~/.dotfiles/programs/atuin.sh # gets clobbered if sourced before omz
 # See https://github.com/direnv/direnv/issues/443
 f="$HOME/programming/forks/zsh-completion-sync/zsh-completion-sync.plugin.zsh"
 # zstyle ':completion-sync:*' debug true
-if [ -f "$f" ]; then 
+if [ -f "$f" ]; then
   source "$f";
 fi
 unset f
@@ -25,10 +25,13 @@ unset f
 
 if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
 
-command -v mise >/dev/null && eval "$(mise activate zsh)"
+if command -v mise >/dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise activate zsh --shims)"
+fi
 _shell=zsh . ~/.dotfiles/programs/atuin.sh
 
-autoload -Uz compinit 
+autoload -Uz compinit
 compinit
 autoload bashcompinit
 bashcompinit
