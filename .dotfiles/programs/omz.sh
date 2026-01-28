@@ -69,39 +69,35 @@ ZSH_THEME="bira"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    colored-man-pages
-    command-not-found
-    direnv
+    # git
+    # colored-man-pages
+    # command-not-found
+    # direnv
 
-    node
-    yarn
-    npm
+    # node
+    # yarn
+    # npm
 
-    python
+    # python
 
-    rust
-    golang
-    docker
-    nix-zsh-completions
-    aws
-    kubectl
+    # rust
+    # golang
+    # docker
+    # aws
+    # kubectl
 )
 
 # shellcheck disable=SC1091
 source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
-
 if (command -v starship &>/dev/null); then
     eval "$(starship init zsh)" # theme the prompt using starship
 else
     export PS1='$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
-
 fi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-
