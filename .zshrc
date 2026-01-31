@@ -1,4 +1,4 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
 if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     source ~/.zprofile
 fi
@@ -9,6 +9,12 @@ fi
 source ~/.dotfiles/aliases.sh
 source ~/.dotfiles/functions.sh
 source ~/.dotfiles/programs/atuin.sh # gets clobbered if sourced before omz
+
+# Add completions installed through Homebrew packages
+# See: https://docs.brew.sh/Shell-Completion
+if type brew &>/dev/null; then
+  FPATH=/usr/local/share/zsh/site-functions:$FPATH
+fi
 
 # Reload completions after direnv updates $FPATH or $XDG_DATA_DIRS
 # See https://github.com/BronzeDeer/zsh-completion-sync
@@ -39,17 +45,29 @@ else
 fi
 autoload bashcompinit
 bashcompinit
-zprof
 
 
 # User configuration
 if (command -v starship &>/dev/null); then
     eval "$(starship init zsh)" # theme the prompt using starship
 else
-    export PS1='$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
+     export PS1='$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
 fi
 
-# export MANPATH="/usr/local/man:$MANPATH"
+export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
+
+# Vim Keybindings
+bindkey -v
+
+# This is a "fix" for zsh in Ghostty:
+# Ghostty implements the fixterms specification https://www.leonerd.org.uk/hacks/fixterms/
+# and under that `Ctrl-[` doesn't send escape but `ESC [91;5u`.
+#
+# (tmux and Neovim both handle 91;5u correctly, but raw zsh inside Ghostty doesn't)
+#
+# Thanks to @rockorager for this!
+bindkey "^[[91;5u" vi-cmd-mode
+# zprof

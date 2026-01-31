@@ -52,10 +52,9 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
     if [ -d "$HOME/.til/bin" ]; then PATH="$PATH:$HOME/.til/bin"; fi
+    if [ -d "$HOME/work" ]; then PATH="$PATH:$HOME/work/bin"; fi
     # ^ see https://github.com/skalt/til/
-    if [ -d "$HOME/work/.brag/bin" ]; then
-        PATH="$PATH:$HOME/work/.brag/bin"
-    fi
+    PATH="$PATH:$HOME/work/.brag/bin"
     export PG_COLOR=auto # see https://www.postgresql.org/docs/current/color-when.html
     PROFILE_HAS_BEEN_SOURCED=true
     PROFILE_HAS_BEEN_SOURCED="$(date '+%Y-%m-%dT%H:%M:%S%z')"

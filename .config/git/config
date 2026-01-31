@@ -30,6 +30,7 @@
 	gud = "!f() { echo \"GIT GUD\" | figlet -c ; }; f"
 	tt = time-travel
 	c = commit
+	bb = "!f(){ git checkout -b \"$1\" main; }; f"
 
 [includeIf "gitdir:~/work/"]
 	path = ~/work/.gitconfig

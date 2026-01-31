@@ -96,7 +96,7 @@ if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
 if [ -f "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
 
 if command -v mise >/dev/null; then
-  eval "$(mise activate bash)"
   eval "$(mise activate bash --shims)"
+  eval "$(mise activate bash)"
 fi
 _shell=bash . ~/.dotfiles/programs/atuin.sh
