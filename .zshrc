@@ -38,15 +38,14 @@ fi
 _shell=zsh . ~/.dotfiles/programs/atuin.sh
 
 autoload -Uz compinit
-if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' ${ZDOTDIR:-$HOME}/.zcompdump) ]; then
+for dump in ~/.zcompdump(N.mh+24); do
   compinit
-else
-  compinit -C
-fi
+done
+compinit -C
 autoload bashcompinit
 bashcompinit
 
-
+setopt prompt_subst
 # User configuration
 if (command -v starship &>/dev/null); then
     eval "$(starship init zsh)" # theme the prompt using starship
