@@ -24,6 +24,7 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
     if [ "$(uname -s | tr '[:upper:]' '[:lower:]')" = "darwin" ] && [ "$(uname -m)" = arm64 ]; then
         . "$HOME/.dotfiles/programs/brew.sh"
     fi
+    export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
     if command -v fortune >/dev/null; then
         echo "fortune: -----------------------------------------------------------"
         fortune | sed 's/^/    /g'
@@ -48,13 +49,11 @@ if [ -z "${PROFILE_HAS_BEEN_SOURCED:-}" ]; then
         PATH="/nix/var/nix/profiles/default/bin/:$PATH";
     fi
     if [ -e "$HOME/.local/bin/env" ]; then . "$HOME/.local/bin/env"; fi
-    if [ -d "$HOME/bin" ]; then PATH="$HOME/bin:$PATH"; fi
-    if [ -d "$HOME/.local/bin" ]; then PATH="$HOME/.local/bin:$PATH"; fi
     if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
     if [ -d "$HOME/.til/bin" ]; then PATH="$PATH:$HOME/.til/bin"; fi
     if [ -d "$HOME/work" ]; then PATH="$PATH:$HOME/work/bin"; fi
     # ^ see https://github.com/skalt/til/
-    PATH="$PATH:$HOME/work/.brag/bin"
+    export PATH="$PATH:$HOME/work/.brag/bin"
     export PG_COLOR=auto # see https://www.postgresql.org/docs/current/color-when.html
     PROFILE_HAS_BEEN_SOURCED=true
     PROFILE_HAS_BEEN_SOURCED="$(date '+%Y-%m-%dT%H:%M:%S%z')"

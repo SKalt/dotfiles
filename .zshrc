@@ -45,6 +45,9 @@ compinit -C
 autoload bashcompinit
 bashcompinit
 
+setopt auto_menu
+setopt complete_in_word
+setopt always_to_end
 setopt prompt_subst
 # User configuration
 if (command -v starship &>/dev/null); then
