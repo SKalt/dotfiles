@@ -31,6 +31,7 @@
 	tt = time-travel
 	c = commit
 	bb = "!f(){ git checkout -b \"$1\" main; }; f"
+	msg-file = !echo \"$(git rev-parse --git-dir)/COMMIT_EDITMSG\"
 
 [includeIf "gitdir:~/work/"]
 	path = ~/work/.gitconfig
