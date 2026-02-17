@@ -1,0 +1,8 @@
+#!/bin/sh
+name="$1"
+git fetch origin main
+if [ -z "$name" ]; then
+  printf "branch name: "
+  read -r name
+fi
+git checkout -b "$name" origin/main
