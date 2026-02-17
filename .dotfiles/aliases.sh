@@ -5,7 +5,7 @@ alias ,wd='cd "$(git worktree-dir)"'
 if command -v bat >/dev/null; then alias cat=bat; fi
 # shellcheck disable=SC2142,2154
 alias ,w='w="$(
-  find ~/work  -type d -maxdepth 3 -name "*.git"  -exec git --git-dir={} worktree  list ";" |
+  find ~/work -maxdepth 3 -type d -name "*.git"  -exec git --git-dir={} worktree  list ";" |
     sed "s#$HOME/work/##g" |
     awk "{ print \$1 }" |
     sort -u |
@@ -15,7 +15,7 @@ alias ,w='w="$(
 '
 # shellcheck disable=SC2142,2154
 alias ,p='p=$(
-  find ~/programming ~/programming/forks  -type d -maxdepth 3 -name "*.git"  -exec git --git-dir={} worktree  list ";" |
+  find ~/programming ~/programming/forks -maxdepth 3 -type d -name "*.git"  -exec git --git-dir={} worktree  list ";" |
     sed "s#$HOME/programming/##g" |
     awk "{ print \$1 }" |
     sort -u |
