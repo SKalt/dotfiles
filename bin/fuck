@@ -1,0 +1,11 @@
+#!/bin/bash
+### USAGE: fuck [-h|--help]
+# get the last failed command from atuin
+set -euo pipefail
+bad_cmd=
+good_cmd=
+
+bad_cmd="$(atuin search --offset 1 --limit 1 --format "{command}" --exclude-exit 0 --after "yesterday 1am" --cwd "$PWD")"
+good_cmd="$(atuin search --interactive --offset 1 --exit 0 "$bad_cmd" 3>&1 1>&2 2>&3)"
+printf "; %s\n" "$good_cmd"
+eval "$good_cmd"
