@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+if [[ $# -eq 0 ]]; then
+  targets="*.json"
+else
+  targets="$*"
+fi
+query=;
+read -r query < <(echo '' | fzf --print-query --preview "cat $targets | jq {q}")
+if [[ -n "$query" ]]; then
+  cmd="cat $targets | jq '$query'"
+  echo "; $cmd" >&2
+  eval "$cmd"
+else
+  echo "No query selected." >&2
+  exit 1
+fi
