@@ -23,3 +23,5 @@ alias ,p='p=$(
     sed "s#^#$HOME/programming/#g"
 ); cd "${p:-.}"; unset p
 '
+# shellcheck disable=SC2142,2154
+alias tt='tt=; tt=$(~/bin/tt) && cd "${tt:-.}"; unset tt'
