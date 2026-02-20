@@ -1,14 +1,21 @@
 #!/bin/bash
 set -euo pipefail
-if [[ $# -eq 0 ]]; then
-  targets="*.json"
-else
-  targets="$*"
-fi
+args=()
+flags=("")
+for i in "$@"; do
+  case "$i" in
+  -*)
+    flags+=("$i")
+    ;;
+  *) args+=("$i");;
+  esac
+done
+if [ "${#args[@]}" -eq 0 ]; then args=("*.json"); fi
+
 query=;
-read -r query < <(echo '' | fzf --print-query --preview "cat $targets | jq {q}")
+read -r query < <(echo '' | fzf --print-query --preview "cat ${args[*]} | jq ${flags[*]} {q}")
 if [[ -n "$query" ]]; then
-  cmd="cat $targets | jq '$query'"
+  cmd="cat ${args[*]} | jq ${flags[*]} '$query'"
   echo "; $cmd" >&2
   eval "$cmd"
 else
