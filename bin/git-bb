@@ -1,8 +1,12 @@
 #!/bin/sh
+set -eu
 name="$1"
-git fetch origin main
 if [ -z "$name" ]; then
   printf "branch name: "
   read -r name
 fi
-git checkout -b "$name" origin/main
+trunk=""; trunk="$(git var GIT_DEFAULT_BRANCH || :)"
+if [ -z "$trunk" ]; then trunk=main; fi
+
+git fetch origin "$trunk"
+git checkout -b "$name" "origin/$trunk"
