@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-name="$1"
+name="${1:-}"
 if [ -z "$name" ]; then
   printf "branch name: "
   read -r name
