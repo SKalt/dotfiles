@@ -16,7 +16,7 @@ query=;
 read -r query < <(echo '' | fzf --print-query --preview "cat ${args[*]} | jq ${flags[*]} {q}")
 if [[ -n "$query" ]]; then
   cmd="cat ${args[*]} | jq ${flags[*]} '$query'"
-  echo "; $cmd" >&2
+  echo "; $cmd" | tee -a /tmp/,ijq.out >&2
   eval "$cmd"
 else
   echo "No query selected." >&2

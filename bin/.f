@@ -1,7 +1,6 @@
 #!/bin/bash
-export GIT_DIR="$HOME/.dotfiles.git"
 if [ "$#" -eq 0 ]; then
-    e ~/.profile  ~/.bashrc ~/.zprofile ~/.zshrc ~/.dotfiles/ ~/bin/;
+    GIT_DIR="$HOME/.dotfiles.git" GIT_WORK_TREE="$HOME" e ~/.profile  ~/.bashrc ~/.zprofile ~/.zshrc ~/.dotfiles/ ~/bin/;
 else
-    git --work-tree="$HOME" "$@"
+    git --work-tree="$HOME" --git-dir="$HOME/.dotfiles.git" "$@"
 fi
