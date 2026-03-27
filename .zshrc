@@ -53,7 +53,8 @@ setopt prompt_subst
 if (command -v starship &>/dev/null); then
     eval "$(starship init zsh)" # theme the prompt using starship
 else
-     export PS1='$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
+     export PS1="# $(whoami)@$(hostname):"'$(pwd)
+$(if [ $? = 0 ];then tput setaf 2;else tput setaf 1;fi); $(tput sgr0)'
 fi
 
 export MANPATH="/usr/local/man:$MANPATH"
