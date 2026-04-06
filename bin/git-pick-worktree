@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+dir=${1:?missing dir to search}
+dir="$(cd "$dir" && pwd)"
+find "$dir" -maxdepth 3 -type d -name "*.git" \
+    -exec git --git-dir={} worktree  list ";" |
+    sed "s#$dir##g" |
+    awk "{ print \$1 }" |
+    sort -u |
+    fzf |
+    sed "s#^#$dir#g" ;
