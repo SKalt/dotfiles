@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+name=;
+name="$(git remote get-url origin)"
+name="${name##*/}" # basename
+printf "%s\n" "${name%.git}" # strip suffix
