@@ -12,8 +12,19 @@ for i in "$@"; do
 done
 if [ "${#args[@]}" -eq 0 ]; then args=("*.json"); fi
 
+tool="jq"
+for arg in "${args[@]}"; do
+  case "$arg" in
+    *.yaml|*.yml) tool=yq
+  esac
+done
+if ! command -v "$tool" >/dev/null; then
+  echo "$tool not found" >&2
+  exit 127
+fi
+
 query=;
-read -r query < <(echo '' | fzf --print-query --preview "cat ${args[*]} | jq ${flags[*]} {q}")
+read -r query < <(echo '' | fzf --print-query --preview "cat ${args[*]} | $tool ${flags[*]} {q}")
 if [[ -n "$query" ]]; then
   cmd="cat ${args[*]} | jq ${flags[*]} '$query'"
   echo "; $cmd" | tee -a /tmp/,ijq.out >&2

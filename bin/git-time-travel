@@ -3,4 +3,4 @@ set -euo pipefail
 if ! git rev-parse &>/dev/null; then
     echo "$(pwd) is not a git repo" >&2
 fi
-git history | fzf | xargs git checkout
+git branch-history | fzf | xargs git checkout
