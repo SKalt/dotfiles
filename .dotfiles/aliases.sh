@@ -9,3 +9,4 @@ alias ,w='w="$( ~/bin/git-pick-worktree ~/work )"; cd "${w:-.}"; unset w'
 alias ,p='p=$( ~/bin/git-pick-worktree ~/programming ); cd "${p:-.}"; unset p'
 # shellcheck disable=SC2142,2154
 alias tt='tt=; tt=$(~/bin/tt) && cd "${tt:-.}"; unset tt'
+alias ggit='git'
