@@ -1,0 +1,9 @@
+#!/bin/bash
+args=()
+for arg in "$@"; do
+  args+=("$arg")
+done
+if [ "${#args[@]}" -eq 0 ]; then
+  args+=("-1")
+fi
+git log --oneline | head "${args[@]}"
