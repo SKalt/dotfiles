@@ -81,7 +81,7 @@ plugins=(
     # python
 
     # rust
-    # golang
+    golang
     # docker
     # aws
     # kubectl
