@@ -3,7 +3,7 @@
 .direnv
 *.dll
 .DS_Store
-.env
+.env.local
 .mypy_cache
 node_modules
 .node_repl_history
