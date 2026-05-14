@@ -2,8 +2,18 @@
 set -euo pipefail
 args=()
 flags=("")
+history_file=/tmp/,ijq.out
+input="."
+pwd="$PWD"
 for i in "$@"; do
   case "$i" in
+  --redo) eval ": $(tail -1 $history_file)"; exit $? ;;
+  --edit)
+    pwd="$(tail -1 $history_file | sed 's/^; cd //g' | awk '{ print $1 }')"
+    for f in $(tail -1 $history_file | sed 's/^.*cat //g; s/\|.*$//g'); do
+      args+=("$f")
+    done
+    input="$(tail -1 $history_file | cut -d"'" -f2)" ;;
   -*)
     flags+=("$i")
     ;;
@@ -24,10 +34,10 @@ if ! command -v "$tool" >/dev/null; then
 fi
 
 query=;
-read -r query < <(echo '' | fzf --print-query --preview "cat ${args[*]} | $tool ${flags[*]} {q}")
+read -r query < <(echo "" | fzf --query="$input" --print-query --preview "cat ${args[*]} | $tool ${flags[*]} {q}")
 if [[ -n "$query" ]]; then
-  cmd="cat ${args[*]} | jq ${flags[*]} '$query'"
-  echo "; $cmd" | tee -a /tmp/,ijq.out >&2
+  cmd="cd $pwd && cat ${args[*]} | jq ${flags[*]} '$query'"
+  echo "; $cmd" | tee -a $history_file >&2
   eval "$cmd"
 else
   echo "No query selected." >&2
