@@ -104,3 +104,8 @@ into() {
 }
 
 weather() { curl wttr.in; }
+
+# shellcheck disable=SC2142,2154
+,pick-worktree() { cd "$(~/bin/git-pick-worktree "$@")" || return 127 ; }
+,w(){ ,pick-worktree ~/work "$@"; }
+,p(){ ,pick-worktree ~/programming "$@"; }
