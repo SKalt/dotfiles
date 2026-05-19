@@ -1,2 +1,6 @@
 #!/bin/bash
-atuin search --format '{directory}' --after 'last week' | uniq | fzf --tac
+atuin search \
+  --format '{directory}' \
+  --after 'last week' |
+    uniq |
+    fzf --tac --query "$*"
