@@ -20,11 +20,12 @@ fi
 
 markdown=0
 details=0
+indent="# "
 while [ -n "${1:-}" ]; do
   case "$1" in
     -h|--help) usage && exit 0;;
-    -m|--markdown) markdown=1; shift;;
-    -d|--details)  markdown=1; details=1; shift;;
+    -m|--markdown) markdown=1; indent=""; details=0; shift;;
+    -d|--details)  markdown=1; indent=""; details=1; shift;;
     *) break;;
   esac
 done
@@ -39,7 +40,7 @@ output=$(mktemp "${TEMP:-/tmp}/tmp.out.XXXXX")
     [ $markdown = 1 ] && printf '```\n```\n'
 } >> "$output"
 printf "%s" "$gray"
-( eval "$cmd"; echo "=> $?" ) 2>&1 | sed 's/^/# /g' | tee -a "$output"
+( eval "$cmd"; echo "=> $?" ) 2>&1 | sed "s/^/$indent/g" | tee -a "$output"
 {
     [ $markdown = 1 ] && printf '```\n'
     [ $details  = 1 ] && printf "\n</details>\n"
