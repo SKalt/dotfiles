@@ -112,4 +112,4 @@ weather() { curl wttr.in; }
 }
 ,tt() { ,pick-into ~/bin/,tt "$@"; }
 ,w(){ ,pick-into ~/bin/git-pick-worktree ~/work "$@"; }
-,p(){ ,pick-into ~/bin/git-pick-worktre ~/programming "$@"; }
+,p(){ ,pick-into ~/bin/git-pick-worktree ~/programming "$@"; }

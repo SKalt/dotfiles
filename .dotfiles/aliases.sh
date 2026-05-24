@@ -5,4 +5,5 @@ alias ,wd='cd "$(git worktree-dir)"'
 if command -v bat >/dev/null; then alias cat=bat; fi
 alias ggit='git'
 
+# shellcheck disable=SC1091
 if [ -f "$HOME/work/.aliases.sh" ]; then . "$HOME/work/.aliases.sh"; fi
