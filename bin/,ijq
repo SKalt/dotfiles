@@ -36,7 +36,7 @@ fi
 query=;
 read -r query < <(echo "" | fzf --query="$input" --print-query --preview "cat ${args[*]} | $tool ${flags[*]} {q}")
 if [[ -n "$query" ]]; then
-  cmd="cd $pwd && cat ${args[*]} | jq ${flags[*]} '$query'"
+  cmd="cd $pwd && cat ${args[*]} | $tool ${flags[*]} '$query'"
   echo "; $cmd" | tee -a $history_file >&2
   eval "$cmd"
 else
