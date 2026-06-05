@@ -2,5 +2,16 @@
 atuin search \
   --format '{directory}' \
   --after 'last week' |
-    uniq |
-    fzf --tac --query "$*"
+    awk '
+      BEGIN{ n=0 }
+      { n++; x[$0]=n; }
+      END {
+        for (k in x) {
+          print x[k] " " k
+        }
+      }
+    ' |
+    sort -nr |
+    cut -d' ' -f2 |
+    sed "s#$HOME/#~/#g" |
+    fzf --query "$*"

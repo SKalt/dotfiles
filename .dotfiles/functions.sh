@@ -108,7 +108,7 @@ weather() { curl wttr.in; }
 ,pick-into() {
     local cmd="${1:?missing required command}"
     shift
-    cd "$("$cmd" "$@")" || return 127
+    cd "$("$cmd" "$@" | sed "s#^~#$HOME#g")" || return 127
 }
 ,tt() { ,pick-into ~/bin/,tt "$@"; }
 ,w(){ ,pick-into ~/bin/git-pick-worktree ~/work "$@"; }
