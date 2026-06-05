@@ -18,3 +18,4 @@ scratch*
 *.so
 *.swp
 yarn-debug.log*
+crush.json
