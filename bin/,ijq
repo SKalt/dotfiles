@@ -1,5 +1,20 @@
 #!/bin/bash
+### $0 [-h|--help] [--edit] [--redo] [FLAGS] FILES
+###
+### interactive jq/yq wrapper.
+###
+### FLAGS
+### -h | --help  print this message and exit
+###      --edit  edit the last query
+###      --redo  re-run the last query
+### -*           pass flags to jq/yq
+###
+### FILES        json/yaml files to pass to jq/yq.
+
 set -euo pipefail
+
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'| sed "s#\$0#${0##*/}#g"; }
+
 args=()
 flags=("")
 history_file=/tmp/,ijq.out
@@ -7,6 +22,7 @@ input="."
 pwd="$PWD"
 for i in "$@"; do
   case "$i" in
+  -h | --help) usage && exit 0;;
   --redo) eval ": $(tail -1 $history_file)"; exit $? ;;
   --edit)
     pwd="$(tail -1 $history_file | sed 's/^; cd //g' | awk '{ print $1 }')"
