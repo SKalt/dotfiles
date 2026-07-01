@@ -1,9 +1,9 @@
 scan_timeout = 10
-format = "[# $all](dimmed)"
+format = "[# ${custom.git_repo_name}$all](dimmed)"
 
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[;](bold green)"     # The "success_symbol" segment is being set to ";" with the color "bold green"
-error_symbol   = "[;](bold red)"
+[character]  # The name of the module we are configuring is "character"
+success_symbol = "[;](bold green)"  # The "success_symbol" segment is being set to ";" with the color "bold green"
+error_symbol = "[;](bold red)"
 
 [aws]
 symbol = "  "
@@ -54,7 +54,7 @@ symbol = " "
 symbol = " "
 
 [nodejs]
-format = '[$symbol($version)]($style) '
+format = "[$symbol($version)]($style) "
 
 [package]
 symbol = " "
@@ -90,3 +90,12 @@ symbol = "ﯣ "
 [kubernetes]
 symbol = "☸ "
 disabled = false
+
+[git_metrics]
+disabled = false
+
+[custom.git_repo_name]
+command = "~/bin/git-repo-name || true"
+format = "[$output](bold green)/"
+when = true
+require_repo = true
