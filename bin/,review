@@ -1,0 +1,34 @@
+#!/bin/bash
+### USAGE: ,review BRANCH
+set -euo pipefail
+review_branch="${1:?missing BRANCH}"
+main_branch=; main_branch="$(~/bin/git-main-branch)"
+# check if this is in a git worktree with the expected structure
+dirs=()
+for d in $(
+  git worktree list | cut -d' ' -f1 | awk '
+    /\/main/   {main=$1}
+    /\/review/ {review=$1}
+    END {
+        print main " " review
+    }
+  '
+); do
+  dirs+=("$d")
+done
+
+main="${dirs[0]}"
+review="${dirs[1]}"
+
+cd "$main"
+git stash --include-untracked
+git checkout "$main_branch"
+git pull
+
+cd "$review"
+git stash --include-untracked
+git checkout "$review_branch"
+e . # this *should* be backgrounded
+git diff --name-only "${main_branch}..${review_branch}" | while read -r d; do
+    e  --diff "$main/$d" "$review/$d"
+done
