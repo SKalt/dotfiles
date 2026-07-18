@@ -1,0 +1,29 @@
+#!/bin/bash
+prev_return_code=$?
+is_installed() { command -v "$1" >/dev/null; }
+alert() {
+    local header
+    if [ "$prev_return_code" = 0 ]; then header="terminal"; else
+        header="error"
+    fi
+    local msg=""
+    if [ "$#" -gt 0 ]; then
+        msg="$*"
+    else
+        msg="$(
+            history | tail -n1 | sed -e 's/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'
+        )"
+    fi
+    if is_installed notify-send; then
+        notify-send -i "$header" "$msg"
+    elif is_installed osascript; then
+        local cmd
+        cmd="$(
+            printf 'display alert "%s" message "%s"' \
+                "${msg//\"/\\\"}" \
+                "$header"
+        )"
+        osascript -e "$cmd"
+    fi
+}
+alert "$@"
