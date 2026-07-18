@@ -1,7 +1,10 @@
 #!/bin/sh
-### USAGE: ,xc [-h|--help] [-m] [CMD...]
+### USAGE: ,xc [-h|--help] [-m|--markdown] [-d|--details] [CMD...]
 ### eXec and Copy to clipboard
-###
+### Flags:
+###  -h | --help      print this message and exit
+###  -m | --markdown  emit markdown code blocks
+###  -d | --details   emit markdown code blocks inside `<details>` tags
 
 usage() { grep '^###' "$0"  | sed 's/^### //g;'; }
 
