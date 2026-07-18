@@ -1,8 +1,24 @@
 #!/bin/bash
+### USAGE: $0 [-h|--help] DIR [-|QUERY]
+### Find all git worktrees within a directory
+### ARGS:
+###   DIR   the directory to search
+###   -     if passed, cd into DIR instead of searching
+###   QUERY an initial search string
+### FLAGS:
+###   -h|--help print this message and exit.
+usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'| sed "s#$0##g"; }
 set -euo pipefail
 dir=${1:?missing dir to search}
 shift
+case "$dir" in
+    -h|--help) usage && exit 0;;
+esac
 query="$*"
+if [ "$query" = "-" ]; then
+    echo "$dir"
+    exit 1
+fi
 dir="$(cd "$dir" && pwd)"
 find "$dir" -maxdepth 3 -type d -name "*.git" \
     -exec git --git-dir={} worktree  list ";" |
