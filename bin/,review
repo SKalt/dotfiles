@@ -28,7 +28,13 @@ git pull
 cd "$review"
 git stash --include-untracked
 git checkout "$review_branch"
-e . # this *should* be backgrounded
+e -n . # this *should* be backgrounded
+flags=()
+case "${EDITOR:-vi}" in
+    zed|*/zed) flags+=(-e);;
+    code|*/code) flags+=(-r) ;;
+    *) echo "unsupported review editor: ${EDITOR:-vi}"
+esac
 git diff --name-only "${main_branch}..${review_branch}" | while read -r d; do
-    e  --diff "$main/$d" "$review/$d"
+    e "${flags[@]}" --diff "$main/$d" "$review/$d"
 done
