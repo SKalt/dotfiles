@@ -8,6 +8,7 @@
 ###      --edit  edit the last query
 ###      --redo  re-run the last query
 ### -*           pass flags to jq/yq
+### -d | --debug debug
 ###
 ### FILES        json/yaml files to pass to jq/yq.
 
@@ -20,6 +21,7 @@ flags=("")
 history_file=/tmp/,ijq.out
 input="."
 pwd="$PWD"
+debug=false
 for i in "$@"; do
   case "$i" in
   -h | --help) usage && exit 0;;
@@ -30,10 +32,13 @@ for i in "$@"; do
       args+=("$f")
     done
     input="$(tail -1 $history_file | cut -d"'" -f2)" ;;
+  --debug)
+    debug=true
+    shift;;
   -*)
     flags+=("$i")
     ;;
-  *) args+=("$i");;
+  *) args+=("\"${i/\"/\\\"}\"");;
   esac
 done
 if [ "${#args[@]}" -eq 0 ]; then args=("*.json"); fi
@@ -41,12 +46,17 @@ if [ "${#args[@]}" -eq 0 ]; then args=("*.json"); fi
 tool="jq"
 for arg in "${args[@]}"; do
   case "$arg" in
-    *.yaml|*.yml) tool=yq
+    *.yaml\"|*.yml\") tool=yq
   esac
 done
 if ! command -v "$tool" >/dev/null; then
   echo "$tool not found" >&2
   exit 127
+fi
+
+if [ "$debug" = "true" ]; then
+    echo "args=${args[*]} tool=$tool"
+    exit 0
 fi
 
 query=;
