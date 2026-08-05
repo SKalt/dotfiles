@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+mod=; mod="$(awk '/^module/ { print $2 }' go.mod)"
+go test ./... -json |
+jq -r '. | select(.Action == "fail") | select(.Test) | "\(.Package) \(.Test)"' | sed "s#$mod#.#g"
