@@ -41,7 +41,7 @@ case "${EDITOR:-vi}" in
     code|*/code*) flags+=(-r) ;;
     *) echo "unsupported review editor: ${EDITOR:-vi}" && exit 127 ;;
 esac
-git diff --name-only "${main_branch}..${review_branch}" | while read -r d; do
+git diff --name-only "${main_branch}...${review_branch}" | while read -r d; do
   pre="$main/$d"
   post="$review/$d"
   if [ ! -f "$pre" ]; then
