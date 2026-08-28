@@ -1,6 +1,12 @@
 #!/bin/bash
 ### USAGE: ,review BRANCH
-set -euo pipefail
+set -euo pipefail -o errtrace
+traperr() {
+  echo "ERROR: ${BASH_SOURCE[1]}:${BASH_LINENO[0]}"
+}
+
+set -o errtrace
+trap traperr ERR
 review_branch="${1:?missing BRANCH}"
 main_branch=; main_branch="$(~/bin/git-main-branch)"
 # check if this is in a git worktree with the expected structure
@@ -22,19 +28,29 @@ review="${dirs[1]}"
 
 cd "$main"
 git stash --include-untracked
-git checkout "$main_branch"
+git switch "$main_branch"
 git pull
 
 cd "$review"
 git stash --include-untracked
-git checkout "$review_branch"
+git switch "$review_branch"
 e -n . # this *should* be backgrounded
 flags=()
 case "${EDITOR:-vi}" in
-    zed|*/zed) flags+=(-e);;
-    code|*/code) flags+=(-r) ;;
-    *) echo "unsupported review editor: ${EDITOR:-vi}"
+    zed|*/zed*) flags+=(-e);;
+    code|*/code*) flags+=(-r) ;;
+    *) echo "unsupported review editor: ${EDITOR:-vi}" && exit 127 ;;
 esac
 git diff --name-only "${main_branch}..${review_branch}" | while read -r d; do
-    e "${flags[@]}" --diff "$main/$d" "$review/$d"
+  pre="$main/$d"
+  post="$review/$d"
+  if [ ! -f "$pre" ]; then
+    pre="$main/.created"
+    printf "" > "$pre"
+  fi
+  if [ ! -f "$review/$d" ]; then
+    post="$review/.deleted"
+    printf "" > "$post"
+  fi
+  e "${flags[@]}" --diff "$pre" "$post"
 done
