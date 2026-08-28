@@ -73,6 +73,7 @@
 [push]
 	autoSetupRemote = true
 	followTags = true
+	default = current
 
 [help]
 	autocorrect = 10
