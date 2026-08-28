@@ -1,0 +1,35 @@
+#!/bin/bash
+set -euo pipefail
+data="$(
+    gh issue list --assignee "@me" --state OPEN |
+    awk -F'\t' '{
+        date=$5
+        number=$1
+        title=$3
+        print date "\t" number "\t" title
+    }' |
+    fzf --delimiter '\t' --nth=3
+)"
+kind="$(cat <<EOF | fzf
+feat
+fix
+chore
+refactor
+EOF
+)"
+
+name="$(
+    printf "%s/%s" \
+    "$kind" \
+    "$(
+      echo "$data" |
+      awk -F'\t' '{
+        t = tolower($3)
+        gsub(/[^a-z0-9]+/, "-", t)
+        gsub(/^-|-$/, "", t)
+        print $2 "/" t
+      }'
+    )"
+)"
+
+git bb "$name"
