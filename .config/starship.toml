@@ -95,7 +95,7 @@ disabled = false
 disabled = false
 
 [custom.git_repo_name]
-command = "~/bin/git-repo-name || true"
+command = "~/bin/git-repo-name || echo _"
 format = "[$output](bold green)/"
 when = true
 require_repo = true
