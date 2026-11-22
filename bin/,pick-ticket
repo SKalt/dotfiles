@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-data="$(
+pick_ticket() {
     gh issue list --assignee "@me" --state OPEN |
     awk -F'\t' '{
         date=$5
@@ -9,20 +9,21 @@ data="$(
         print date "\t" number "\t" title
     }' |
     fzf --delimiter '\t' --nth=3
-)"
-kind="$(cat <<EOF | fzf
+}
+pick_type() {
+    cat <<EOF | fzf
 feat
 fix
 chore
 refactor
 EOF
-)"
-
-name="$(
+}
+render_name() {
+    local kind="$1" name="$2"
     printf "%s/%s" \
     "$kind" \
     "$(
-      echo "$data" |
+      echo "$name" |
       awk -F'\t' '{
         t = tolower($3)
         gsub(/[^a-z0-9]+/, "-", t)
@@ -30,6 +31,14 @@ name="$(
         print $2 "/" t
       }'
     )"
-)"
+}
 
-git bb "$name"
+main() {
+    local ticket="" kind="" name=""
+    ticket="$(pick_ticket)"
+    kind="$(pick_type)"
+    name="$(render_name "$kind" "$ticket")"
+    git bb "$name"
+}
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then main "$@"; fi
