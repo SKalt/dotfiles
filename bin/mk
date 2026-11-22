@@ -1,37 +1,55 @@
 #!/bin/bash
-### USAGE: mk [+x] [-e] path/to/thing
+### USAGE: mk [+x] [-e] [-g] path/to/thing
 ### Like `mkdir -p`, except it makes files AND directories.
+### OPTIONS
+###  -h print this mesage and exit.
+###  -e open named files in $EDITOR
+###  -g make the named directory a git repo.
+###  -x make named files executable
 set -eu
 usage() { cat "$0" | grep -e "^###" | sed 's/### //g;' | sed  "s#\\\$0#$0#g"; }
 
-files=(_)
-directories=(_)
+files=()
+directories=()
 edit=false
+git=false
 executable=false
 
 for i in "$@"; do
   case "$i" in
     -h|--help) usage && exit 0     ;;
     -e)        edit=true           ;;
+    -g)        git=true            ;;
     -x)        executable=true     ;;
-    */)       directories+=("$i") ;;
-    *)        files+=("$i")       ;;
+    */)        directories+=("$i") ;;
+    *)         files+=("$i")       ;;
   esac
 done
 
-for d in "${directories[@]:1}"; do
+if [ ${git} = true ]; then
+  if [ "${#directories[@]}" -ne 1 ]; then
+    echo "invalid number of directories for git repo: ${#directories[@]}" >&2
+    exit 1
+  fi
+  d="${directories[0]}"
+  mkdir -p "$d";
+  cd "$d"
+  git init
+fi
+
+for d in "${directories[@]:-}"; do
   mkdir -p "$d";
 done
 
 
-for f in "${files[@]:1}"; do
+for f in "${files[@]:-}"; do
   mkdir -p "${i%/*}" && touch "$i";
 done
 
-if [ "$executable" = true ]; then
+if [ "${executable}" = true ]; then
   chmod +x "${files[@]}";
 fi
 
-if [ "$edit" = true ]; then
-  $EDITOR "${files[@]}" # "${directories[@]}"
+if [ "${edit}" = true ]; then
+  ${EDITOR} "${files[@]}" # "${directories[@]}"
 fi
