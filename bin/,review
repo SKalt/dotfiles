@@ -1,20 +1,23 @@
 #!/bin/bash
 ### USAGE: ,review BRANCH
+# TODO: handle github stacks
 set -euo pipefail -o errtrace
 traperr() {
   echo "ERROR: ${BASH_SOURCE[1]}:${BASH_LINENO[0]}"
 }
-
 set -o errtrace
 trap traperr ERR
 review_branch="${1:?missing BRANCH}"
-main_branch=; main_branch="$(~/bin/git-main-branch)"
+main_branch="${MAIN_BRANCH:-}"
+if [ -z "$main_branch" ]; then
+    main_branch="$(~/bin/git-main-branch)"
+fi
 # check if this is in a git worktree with the expected structure
 dirs=()
 for d in $(
   git worktree list | cut -d' ' -f1 | awk '
-    /\/main/   {main=$1}
-    /\/review/ {review=$1}
+    /\/main\/?$/   { main=$1   }
+    /\/review\/?$/ { review=$1 }
     END {
         print main " " review
     }
@@ -23,15 +26,19 @@ for d in $(
   dirs+=("$d")
 done
 
-main="${dirs[0]}"
-review="${dirs[1]}"
+main_dir="${dirs[0]}"
+review_dir="${dirs[1]}"
+if [ "$review_branch" = HEAD ]; then
+    review_branch="$(git rev-parse --abbrev-ref HEAD)"
+    review_dir=$PWD
+fi
 
-cd "$main"
+cd "$main_dir"
 git stash --include-untracked
 git switch "$main_branch"
 git pull
 
-cd "$review"
+cd "$review_dir"
 git stash --include-untracked
 git switch "$review_branch"
 e -n . # this *should* be backgrounded
@@ -42,10 +49,11 @@ case "${EDITOR:-vi}" in
     *) echo "unsupported review editor: ${EDITOR:-vi}" && exit 127 ;;
 esac
 git diff --name-only "${main_branch}...${review_branch}" | while read -r d; do
-  pre="$main/$d"
-  post="$review/$d"
-  if [ ! -f "$review/$d" ]; then
-    post="$review/.deleted"
+  pre="$main_dir/$d"
+  post="$review_dir/$d"
+  if [ ! -f "$review_dir/$d" ]; then
+    # TODO: maybe use /tmp/ instead of $review_dir
+    post="$review_dir/.deleted"
     printf "" > "$post"
   fi
   if [ ! -f "$pre" ]; then
