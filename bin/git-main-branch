@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+git branch --format '%(refname)' \
+  | sed "s#refs/heads/##g" \
+  | awk '
+    /^main$/    { print $0 }
+    /^master$/  { print $0 }
+    /^dev$/     { print $0 }
+    /^develop$/ { print $0 }
+    ' \
+  | head -1 \
+  || git var GIT_DEFAULT_BRANCH
